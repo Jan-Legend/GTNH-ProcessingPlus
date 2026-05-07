@@ -1,0 +1,350 @@
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GT:NH Processing+ — Design Document</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:        #0d0f0e;
+    --bg2:       #131614;
+    --bg3:       #1a1d1b;
+    --border:    #252926;
+    --border2:   #2e332f;
+    --text:      #c8cfc9;
+    --text-dim:  #6b7570;
+    --text-faint:#3a3f3c;
+    --accent:    #5c9e6e;
+    --accent2:   #3d7a52;
+    --accent3:   #8ecfa2;
+    --gold:      #c4a84a;
+    --gold-dim:  #7a6830;
+    --red:       #b85c4a;
+    --blue:      #5a8fb8;
+    --mono:      'IBM Plex Mono', monospace;
+    --sans:      'IBM Plex Sans', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 15px; line-height: 1.7; min-height: 100vh; }
+  body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events: none; z-index: 0; opacity: 0.4; }
+  .wrapper { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; padding: 0 32px 120px; }
+  header { border-bottom: 1px solid var(--border2); padding: 72px 0 48px; margin-bottom: 64px; position: relative; animation: fadeUp 0.5s ease both; }
+  header::after { content: ''; position: absolute; bottom: -1px; left: 0; width: 120px; height: 2px; background: var(--accent); }
+  .doc-label { font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; display: flex; align-items: center; gap: 12px; }
+  .doc-label::before { content: ''; display: inline-block; width: 24px; height: 1px; background: var(--accent); }
+  h1 { font-family: var(--mono); font-size: clamp(28px, 5vw, 44px); font-weight: 600; letter-spacing: -0.02em; color: #e8ede9; line-height: 1.1; margin-bottom: 16px; }
+  h1 span { color: var(--accent3); }
+  .subtitle { font-size: 15px; color: var(--text-dim); font-weight: 300; max-width: 520px; line-height: 1.6; margin-bottom: 32px; }
+  .meta-row { display: flex; gap: 32px; flex-wrap: wrap; }
+  .meta-item { display: flex; flex-direction: column; gap: 4px; }
+  .meta-key { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-faint); }
+  .meta-val { font-family: var(--mono); font-size: 13px; color: var(--text-dim); }
+  nav { background: var(--bg2); border: 1px solid var(--border); border-radius: 4px; padding: 24px 28px; margin-bottom: 64px; animation: fadeUp 0.5s 0.1s ease both; }
+  .nav-title { font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 16px; }
+  nav ol { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 6px 32px; }
+  nav ol li { display: flex; align-items: baseline; gap: 10px; }
+  nav ol li .n { font-family: var(--mono); font-size: 11px; color: var(--text-faint); min-width: 20px; }
+  nav ol li a { font-size: 13px; color: var(--text-dim); text-decoration: none; transition: color 0.15s; }
+  nav ol li a:hover { color: var(--accent3); }
+  section { margin-bottom: 72px; }
+  .section-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 8px; }
+  h2 { font-family: var(--mono); font-size: 22px; font-weight: 600; color: #dde3de; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--border); position: relative; }
+  h2::after { content: ''; position: absolute; bottom: -1px; left: 0; width: 40px; height: 1px; background: var(--accent); }
+  h3 { font-family: var(--mono); font-size: 14px; font-weight: 500; color: var(--accent3); margin: 32px 0 12px; letter-spacing: 0.04em; }
+  p { color: var(--text); font-weight: 300; margin-bottom: 14px; max-width: 720px; }
+  .callout { border-left: 2px solid var(--accent); background: var(--bg2); padding: 16px 20px; margin: 24px 0; border-radius: 0 4px 4px 0; }
+  .callout.gold { border-left-color: var(--gold); }
+  .callout.red  { border-left-color: var(--red); }
+  .callout.blue { border-left-color: var(--blue); }
+  .callout p { margin: 0; font-size: 14px; }
+  .callout-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 8px; }
+  .callout-label.green { color: var(--accent); }
+  .callout-label.gold  { color: var(--gold); }
+  .callout-label.red   { color: var(--red); }
+  .callout-label.blue  { color: var(--blue); }
+  .chain-grid { display: grid; gap: 2px; margin: 32px 0; }
+  .chain-card { background: var(--bg2); border: 1px solid var(--border); padding: 28px 32px; position: relative; transition: border-color 0.2s; }
+  .chain-card:hover { border-color: var(--border2); }
+  .chain-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--accent); opacity: 0; transition: opacity 0.2s; }
+  .chain-card:hover::before { opacity: 1; }
+  .chain-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 16px; gap: 16px; }
+  .chain-name { font-family: var(--mono); font-size: 16px; font-weight: 600; color: #dde3de; }
+  .chain-tags { display: flex; gap: 6px; flex-wrap: wrap; flex-shrink: 0; }
+  .tag { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 8px; border-radius: 2px; border: 1px solid; }
+  .tag.tier  { color: var(--gold);   border-color: var(--gold-dim); background: rgba(196,168,74,0.06); }
+  .tag.struct{ color: var(--blue);   border-color: #2d4d6a;         background: rgba(90,143,184,0.06); }
+  .tag.proc  { color: var(--accent); border-color: var(--accent2);  background: rgba(92,158,110,0.06); }
+  .tag.gate  { color: var(--red);    border-color: #5c2d22;         background: rgba(184,92,74,0.06); }
+  .chain-desc { font-size: 14px; font-weight: 300; color: var(--text-dim); margin-bottom: 20px; line-height: 1.6; }
+  .chain-uses { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .chain-uses li { display: flex; gap: 12px; font-size: 13px; font-weight: 300; align-items: flex-start; }
+  .chain-uses li::before { content: '→'; font-family: var(--mono); color: var(--accent); flex-shrink: 0; margin-top: 1px; }
+  .pillars { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin: 32px 0; }
+  .pillar { background: var(--bg2); border: 1px solid var(--border); padding: 24px 28px; }
+  .pillar-num { font-family: var(--mono); font-size: 28px; font-weight: 600; color: var(--text-faint); line-height: 1; margin-bottom: 12px; }
+  .pillar-title { font-family: var(--mono); font-size: 12px; font-weight: 500; color: var(--accent3); letter-spacing: 0.06em; margin-bottom: 10px; text-transform: uppercase; }
+  .pillar p { font-size: 13px; color: var(--text-dim); font-weight: 300; margin: 0; }
+  .chem-table { width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 13px; }
+  .chem-table th { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-faint); text-align: left; padding: 10px 16px; border-bottom: 1px solid var(--border2); font-weight: 500; }
+  .chem-table td { padding: 12px 16px; border-bottom: 1px solid var(--border); color: var(--text-dim); font-weight: 300; vertical-align: top; }
+  .chem-table tr:hover td { background: var(--bg2); }
+  .chem-table td:first-child { font-family: var(--mono); font-size: 12px; color: var(--text); font-weight: 500; }
+  .web-container { background: var(--bg2); border: 1px solid var(--border); border-radius: 4px; padding: 32px; margin: 32px 0; }
+  .web-title { font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 24px; }
+  .web-rows { display: flex; flex-direction: column; gap: 16px; }
+  .web-row { display: flex; align-items: center; gap: 12px; font-size: 13px; }
+  .web-source { font-family: var(--mono); font-size: 12px; font-weight: 500; color: var(--accent3); min-width: 160px; flex-shrink: 0; }
+  .web-arrow { color: var(--text-faint); font-family: var(--mono); flex-shrink: 0; }
+  .web-target { color: var(--text-dim); font-weight: 300; font-size: 13px; }
+  .questbook-msg { font-family: var(--mono); font-size: clamp(24px, 4vw, 40px); font-weight: 600; color: var(--accent3); line-height: 1.3; max-width: 100%; margin: 48px 0; }
+  .divider { border: none; border-top: 1px solid var(--border); margin: 48px 0; }
+  footer { border-top: 1px solid var(--border); padding-top: 32px; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px; }
+  .footer-left p { font-family: var(--mono); font-size: 11px; color: var(--text-faint); margin: 0; line-height: 1.8; }
+  .footer-right { font-family: var(--mono); font-size: 11px; color: var(--text-faint); text-align: right; }
+  code { font-family: var(--mono); font-size: 12px; background: var(--bg3); border: 1px solid var(--border2); padding: 1px 6px; border-radius: 2px; color: var(--accent3); }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+  @media (max-width: 640px) { .wrapper { padding: 0 20px 80px; } nav ol { grid-template-columns: 1fr; } .pillars { grid-template-columns: 1fr; } .chain-header { flex-direction: column; } h1 { font-size: 26px; } }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <header>
+    <div class="doc-label">Addon Design Document</div>
+    <h1>GT:NH <span>Processing+</span></h1>
+    <p class="subtitle">A materials chemistry expansion for GregTech: New Horizons. Adds seven new processing chains sorta based in chemistry (no not like supersymmetry), integrated naturally into existing progression from HV through LuV.</p>
+    <div class="meta-row">
+      <div class="meta-item"><span class="meta-key">Status</span><span class="meta-val">Concept / Pre-Development</span></div>
+      <div class="meta-item"><span class="meta-key">Target Version</span><span class="meta-val">GTNH 2.8.x</span></div>
+      <div class="meta-item"><span class="meta-key">Tier Range</span><span class="meta-val">HV → LuV</span></div>
+      <div class="meta-item"><span class="meta-key">Chain Count</span><span class="meta-val">7 (v1.0)</span></div>
+    </div>
+  </header>
+
+  <nav>
+    <div class="nav-title">Contents</div>
+    <ol>
+      <li><span class="n">01</span><a href="#overview">Overview &amp; Goals</a></li>
+      <li><span class="n">02</span><a href="#philosophy">Design Philosophy</a></li>
+      <li><span class="n">03</span><a href="#chains">Processing Chains</a></li>
+      <li><span class="n">04</span><a href="#integration">Uses</a></li>
+      <li><span class="n">05</span><a href="#scope">Tier Scope</a></li>
+      <li><span class="n">06</span><a href="#future">Future Updates</a></li>
+    </ol>
+  </nav>
+
+  <section id="overview">
+    <div class="section-label">01</div>
+    <h2>Overview &amp; Goals</h2>
+    <p>GT:NH Processing+ is an addon for GregTech: New Horizons that adds new processing chains based in materials chemistry. The goal is not to make the game harder for its own sake, it's to fill gaps in the progression and make the modpack feel a little more complete.</p>
+    <p>GTNH already has a bunch of plastics: polyethylene, PTFE, PPS, PBI, and others, they each have a clear use. What's missing is the middle ground, the materials between stuff like Kevlar and PE. This addon fills that space with seven new chains that each have a new identity, a different game function, and a reason to exist that isn't "more steps for the sake of it." or "hey im used for one thing".</p>
+    <div class="callout gold">
+      <div class="callout-label gold">Core Principle</div>
+      <p>Every step in every chain either produces something useful or teaches the player something about the material. No filler. If a step can't justify its existence, it doesn't exist.</p>
+    </div>
+    <h3>What this addon is</h3>
+    <p>A content expansion that deepens existing chemistry rather than replacing it. New chains use existing GTNH materials as inputs. They produce new outputs. They integrate into existing infrastructure. They respect the difficulty curve already established by the pack.</p>
+    <h3>What this addon is not</h3>
+    <p>A difficulty overhaul. A recipe replacer for its own sake. A mod that makes you do 40 steps to get polyethylene. Processing+ adds things alongside what exists, not on top of it in a way that buries the player (other than the specific things I do change).</p>
+  </section>
+
+  <section id="philosophy">
+    <div class="section-label">02</div>
+    <h2>Design Philosophy</h2>
+    <p>These eight things helped me with every design decision in the addon. When a chain or mechanic is being designed, it should satisfy as many of these as possible. A chain that satisfies none of them doesn't belong.</p>
+    <div class="pillars">
+      <div class="pillar"><div class="pillar-num">01</div><div class="pillar-title">Branching Routes</div><p>No single optimal path through a chain. Every branch has a different cost. The "best" choice changes as your base evolves.</p></div>
+      <div class="pillar"><div class="pillar-num">02</div><div class="pillar-title">Byproducts Matter</div><p>No output is throwaway. Every byproduct from every chain should have a use somewhere, in this mod or in base GTNH.</p></div>
+      <div class="pillar"><div class="pillar-num">03</div><div class="pillar-title">Infrastructure Pressure</div><p>Chains are designed to be undersized when first built. The game rewards players who expand, not players who build the minimum and stop.</p></div>
+      <div class="pillar"><div class="pillar-num">04</div><div class="pillar-title">Layered Depth</div><p>New tiers add layers to existing chains, they don't replace them. A player's HV infrastructure is still running and relevant at IV.</p></div>
+      <div class="pillar"><div class="pillar-num">05</div><div class="pillar-title">Named Lines</div><p>Materials critical to tier progression graduate to dedicated and constant lines with internal loops, sorta like the platline.</p></div>
+      <div class="pillar"><div class="pillar-num">06</div><div class="pillar-title">Diverse Challenges</div><p>Not every chain is a throughput problem. Some test chemical layout, some test automation logic, some test resource routing. Variety keeps it interesting.</p></div>
+      <div class="pillar"><div class="pillar-num">07</div><div class="pillar-title">Web of Dependencies</div><p>No chain stands alone. Every chain touches at least two other products, either as a consumer or a producer. Everything feeds everything.</p></div>
+      <div class="pillar"><div class="pillar-num">08</div><div class="pillar-title">Sorta Real Chemistry</div><p>Every reaction and synthesis route is based in how the material is actually made industrially. The game heavily simplifies it, but the logic is there.</p></div>
+    </div>
+    <div class="callout">
+      <div class="callout-label green">On Difficulty</div>
+      <p>The difficulty in these chains should come from what they demand of your infrastructure, not from raw step count. A three-step chain that requires a new multiblock and two continuous inputs is harder than a ten-step chain that runs in copies of a single machine.</p>
+    </div>
+  </section>
+
+  <section id="chains">
+    <div class="section-label">03</div>
+    <h2>Processing Chains</h2>
+    <p>Seven chains across the HV–LuV range. Each has a distinct chemical identity, a distinct entry point into progression, and multiple game functions that create constant demand.</p>
+    <div class="chain-grid">
+
+      <div class="chain-card">
+        <div class="chain-header">
+          <div class="chain-name">Nylon-6,6</div>
+          <div class="chain-tags"><span class="tag tier">HV → EV</span><span class="tag struct">Structural</span><span class="tag gate">Gate</span></div>
+        </div>
+        <div class="chain-desc">A tough engineering plastic made from oil chain feedstocks. Stronger and more heat-resistant than polyethylene, with a key synthesis step that requires a dedicated new multiblock to complete.</div>
+        <ul class="chain-uses">
+          <li>Added as a required component in HV and EV machine hull recipes</li>
+          <li>Required in certain multiblock construction recipes including new multiblocks added by this mod</li>
+          <li>New wire coating option in the LATEX, nylon-coated cables have lower cable loss and cost compared to standard rubber</li>
+          <li>Alternate/changed recipes for motors, pumps, pistons and conveyor covers</li>
+        </ul>
+      </div>
+
+      <div class="chain-card">
+        <div class="chain-header">
+          <div class="chain-name">Carbon Fiber Composite</div>
+          <div class="chain-tags"><span class="tag tier">EV</span><span class="tag struct">Structural</span><span class="tag proc">Process</span></div>
+        </div>
+        <div class="chain-desc">A high-performance composite made from polymer fiber that gets carbonized at extreme temperatures and combined with resin. Two distinct heat treatment stages with different atmospheric requirements make this a genuinely involved chain.</div>
+        <ul class="chain-uses">
+          <li>Superior replacement for existing basic carbon fiber, replaces it in many existing recipes at EV+ tier</li>
+          <li>Continuous consumable input to certain spinny multiblocks (large turbines, maceration stacks, etc), while supplied, machines run at 120–150% speed</li>
+          <li>New CF composite casing block used in the physical structure of new multiblocks</li>
+        </ul>
+      </div>
+
+      <div class="chain-card">
+        <div class="chain-header">
+          <div class="chain-name">Silicon Carbide</div>
+          <div class="chain-tags"><span class="tag tier">EV → IV</span><span class="tag proc">Process</span><span class="tag gate">Gate</span></div>
+        </div>
+        <div class="chain-desc">An inorganic ceramic made from sand and a coal byproduct at temperatures that push the limits of existing EBF coils. Chemically inert, brutally hard, and thermally stable far beyond what any plastic can handle.</div>
+        <ul class="chain-uses">
+          <li>Required upgraded casing for a higher-tier Alloy Blast Smelter, unlocking alloy recipes that exceed standard ABS temperature limits</li>
+          <li>Added to EV and IV machine hull recipes as well as a few casings and singleblocks</li>
+          <li>Enables a new smelting multiblock: the <strong>High Temperature Reaction Furnace (HTRF)</strong> — a hard gate for recipes requiring 3000K+ heat that the EBF family cannot reach. SiC ceramic blocks form its casings</li>
+        </ul>
+      </div>
+
+      <div class="chain-card">
+        <div class="chain-header">
+          <div class="chain-name">Polyimide / Kapton</div>
+          <div class="chain-tags"><span class="tag tier">EV → IV</span><span class="tag struct">Structural</span><span class="tag gate">Gate</span></div>
+        </div>
+        <div class="chain-desc">A high-performance polymer film that stays stable above 400°C and insulates perfectly under high voltage — the material NASA wraps spacecraft wiring in. Made in two stages from coal tar and existing GTNH nitrogen chemistry, with a useful intermediate byproduct.</div>
+        <ul class="chain-uses">
+          <li>Hard gate for IV-tier circuit assembly — Kapton film replaces PE as the substrate material for circuit boards and Advanced SMDs at this tier</li>
+          <li>Required in casings for precision and electronics-adjacent multiblocks: circuit assembly lines, Precision Laser Engravers, and new cleanroom-type structure added by this mod</li>
+          <li>Polyamic acid byproduct used in specific recipes</li>
+          <li>Precursor for polyimide aerogel (planned v1.1 update)</li>
+        </ul>
+      </div>
+
+      <div class="chain-card">
+        <div class="chain-header">
+          <div class="chain-name">Polylactic Acid (PLA)</div>
+          <div class="chain-tags"><span class="tag tier">HV</span><span class="tag proc">Process</span><span class="tag struct">Structural</span></div>
+        </div>
+        <div class="chain-desc">The only chain in the mod that starts with crops instead of oil. Bacteria ferment sugars into lactic acid, which gets converted into a biodegradable plastic. Completely distinct feedstock identity from everything else here.</div>
+        <ul class="chain-uses">
+          <li>Required plastic component in certain ore processing multiblocks, specifically wet-process equipment like upgraded ore washing plants and large chemical bath setups</li>
+          <li>Consumable PLA filtration membranes used in water purification steps — requires an actual PLA line</li>
+          <li>Helps producing bioethanol, making biofuel generation a lot more efficient — a free bonus for players who invest in it</li>
+        </ul>
+      </div>
+
+      <div class="chain-card">
+        <div class="chain-header">
+          <div class="chain-name">White Graphite (Hexagonal Boron Nitride)</div>
+          <div class="chain-tags"><span class="tag tier">LuV</span><span class="tag proc">Process</span><span class="tag gate">Gate</span></div>
+        </div>
+        <div class="chain-desc">Called "white graphene" — same layered structure as graphite, same lubricating properties, but electrically insulating instead of conductive and stable at temperatures graphite would oxidize and fall apart. Made from a new ore input reacted with ammonia at high temperature.</div>
+        <ul class="chain-uses">
+          <li>New high-tier lubricant fluid — required in LuV+ machine operations. Standard lubricant still works below LuV, but LuV machines require hBN lubricant, ensuring a dedicated setup</li>
+          <li>New <strong>Ceramic Reaction Vessel (CRV)</strong> multiblock — a large structure whose inner lining requires hBN ceramic blocks in quantity. The only multiblock that can safely contain certain exotic molten metal mixtures for high-tier alloy recipes</li>
+          <li>Replaces certain plastics in LuV and ZPM circuit recipes, completing the circuit plastic progression: PE → Kapton (IV) → hBN (LuV/ZPM)</li>
+        </ul>
+      </div>
+
+      <div class="chain-card">
+        <div class="chain-header">
+          <div class="chain-name">Silica Aerogel</div>
+          <div class="chain-tags"><span class="tag tier">IV → LuV</span><span class="tag proc">Process</span><span class="tag gate">Gate</span></div>
+        </div>
+        <div class="chain-desc">A material that sounds fake — a solid that's up to 99% air, with the lowest thermal conductivity of any known solid. Made by removing liquid from a gel without letting it collapse, using a high-pressure supercritical drying process that requires dedicated infrastructure.</div>
+        <ul class="chain-uses">
+          <li>Aerogel catalyst supports are consumable inputs for the new <strong>Catalytic Reaction Chamber (CRC)</strong> — a specialised reactor for advanced gas and high-temperature chemical reactions that can't run in a standard LCR without the catalytic surface area aerogel provides</li>
+          <li>The CRC requires Carbon Fiber composite casings to build, requiring another line to be operational first</li>
+          <li>Recipes tagged "requires catalytic environment" only run inside a CRC, similar to how semiconductor recipes require a cleanroom</li>
+          <li>Aerogel insulation panels used in certain high-tier multiblocks</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="integration">
+    <div class="section-label">04</div>
+    <h2>Uses</h2>
+    <p>No chain has one use. The stuff below are either like this: one chain's output feeds another's input, or building one chain enables or accelerates another. This is intentional — it mirrors the design philosophy of GTNH's existing lines. (All lines below may have specific use cases not shown here)</p>
+    <div class="web-container">
+      <div class="web-title">Chain Dependencies &amp; Outputs</div>
+      <div class="web-rows">
+        <div class="web-row"><div class="web-source">Kapton</div><div class="web-arrow">──→</div><div class="web-target">Aerogel (future): polyimide aerogel variant uses Kapton line as precursor. PAA byproduct feeds specific coating-like recipes.</div></div>
+        <div class="web-row"><div class="web-source">PLA</div><div class="web-arrow">──→</div><div class="web-target">Biofuel infrastructure: fermentation setup built for PLA improves bioethanol and biofuel as a sort of side effect.</div></div>
+        <div class="web-row"><div class="web-source">Carbon Fiber</div><div class="web-arrow">──→</div><div class="web-target">CRC construction: CF composite casings are required to build the Catalytic Reaction Chamber. Also consumed continuously by certain multiblock hatches.</div></div>
+        <div class="web-row"><div class="web-source">Silicon Carbide</div><div class="web-arrow">──→</div><div class="web-target">HTRF: gates the High Temperature Reaction Furnace. HTRF then requires hBN lubricant to run at full efficiency.</div></div>
+        <div class="web-row"><div class="web-source">Hexagonal Boron Nitride</div><div class="web-arrow">──→</div><div class="web-target">CRV construction (consumes large quantity of hBN blocks) + continuous hBN lubricant demand + LuV/ZPM circuit substrates also requiring Kapton.</div></div>
+        <div class="web-row"><div class="web-source">Aerogel</div><div class="web-arrow">──→</div><div class="web-target">CRC operation: consumed continuously as catalyst supports. CRC unlocks advanced chemistry that benefits every other chain's efficiency.</div></div>
+        <div class="web-row"><div class="web-source">Nylon-6,6</div><div class="web-arrow">──→</div><div class="web-target">Machine hulls and multiblock construction across HV–EV. LATEX cable coating option. Machine part recipes.</div></div>
+      </div>
+    </div>
+    <div class="callout blue">
+      <div class="callout-label blue">Circuit Progression Arc</div>
+      <p>This addon completes a circuit substrate ladder across all tiers: Polyethylene (MV/HV/EV) → Kapton film (IV) → Hexagonal Boron Nitride (LuV/ZPM). Each material is justified for its tier — PE is cheap and functional, Kapton handles extreme heat, hBN handles extreme heat AND manages electrical/thermal simultaneously.</p>
+    </div>
+  </section>
+
+  <section id="scope">
+    <div class="section-label">05</div>
+    <h2>Tier Scope</h2>
+    <p class="questbook-msg">Ha ha go look in the questbook!</p>
+
+    <h3>New Multiblocks Summary</h3>
+    <table class="chem-table">
+      <thead>
+        <tr><th>Multiblock</th><th>Tier</th><th>Chain</th><th>Function</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>High Temp. Reaction Furnace</td><td>IV</td><td>Silicon Carbide</td><td>Smelting at 3000K+ — second tier above EBF/Volcanus family</td></tr>
+        <tr><td>Ceramic Reaction Vessel</td><td>LuV</td><td>Boron Nitride</td><td>Contains exotic molten metal mixtures for high-tier alloy synthesis</td></tr>
+        <tr><td>Catalytic Reaction Chamber</td><td>IV–LuV</td><td>Aerogel</td><td>Unlocks "catalytic environment" recipe category — requires CF casings + aerogel supports</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="future">
+    <div class="section-label">06</div>
+    <h2>Future Updates</h2>
+    <p>v1.0 ships with the seven chains above. Future updates expand the aerogel line and add additional chains where needed / when interesting.</p>
+    <h3>v1.1 — Aerogel Variants</h3>
+    <p>The silica aerogel chain in v1.0 is designed as the base case for a tiered aerogel progression. Two variants are planned:</p>
+    <div class="callout">
+      <div class="callout-label green">Carbon Aerogel</div>
+      <p>Resorcinol-formaldehyde precursor → pyrolysis converts organic gel to carbon → electrically conductive aerogel. Used in supercapacitor and energy storage components. Distinct feedstock from silica aerogel, distinct electrical identity.</p>
+    </div>
+    <div class="callout">
+      <div class="callout-label green">Polyimide Aerogel</div>
+      <p>Uses the Kapton line's PAA intermediate as the gel precursor — then supercritical dried the same way as silica aerogel. Higher tier thermal insulation for extreme-environment multiblocks. Directly connects two v1.0 chains, creating a new interdependency.</p>
+    </div>
+    <h3>v1.2 — Candidate Chains</h3>
+    <p>To be scoped based on community feedback and progression balance after v1.0 release. Early candidates include additional engineered ceramics and bio-based chemical chains that extend the PLA infrastructure.</p>
+    <div class="callout red">
+      <div class="callout-label red">Out of Scope</div>
+      <p>This addon will not add parallel routes to materials that already have established chains in base GTNH. New chains produce genuinely new outputs. Existing GTNH materials may appear as inputs, never as competing outputs.</p>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <footer>
+    <div class="footer-left">
+      <p>GT:NH Processing+ — Design Document</p>
+      <p>Pre-development concept. Subject to change.</p>
+    </div>
+    <div class="footer-right">
+      <p>GTNH 2.8.x · Minecraft 1.7.10</p>
+    </div>
+  </footer>
+
+</div>
+</body></html>
