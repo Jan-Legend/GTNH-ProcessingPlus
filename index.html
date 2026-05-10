@@ -762,6 +762,334 @@ body {
   --tfc-dark-mode-bg-primary-2: #3f3f46;
   --tfc-dark-mode-bg-secondary: #52525b;
 }
+</style><style>.lottie-animation-container{width:var(--lottie-animation-container-width);height:var(--lottie-animation-container-height);background-color:var(--lottie-animation-container-background-color);overflow:hidden;margin:var(--lottie-animation-margin)}.lottie-animation-container svg{transform:scale(var(--lottie-animation-scale))}</style><style>.lottie-animation-container{width:var(--lottie-animation-container-width);height:var(--lottie-animation-container-height);background-color:var(--lottie-animation-container-background-color);overflow:hidden;margin:var(--lottie-animation-margin)}.lottie-animation-container svg{transform:scale(var(--lottie-animation-scale))}</style><style>.rdp {
+  --rdp-cell-size: 40px;
+  --rdp-accent-color: #0000ff;
+  --rdp-background-color: #e7edff;
+  --rdp-accent-color-dark: #3003e1;
+  --rdp-background-color-dark: #180270;
+  --rdp-outline: 2px solid var(--rdp-accent-color); /* Outline border for focused elements */
+  --rdp-outline-selected: 2px solid rgba(0, 0, 0, 0.75); /* Outline border for focused _and_ selected elements */
+
+  margin: 1em;
+}
+
+/* Hide elements for devices that are not screen readers */
+.rdp-vhidden {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  border: 0;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  position: absolute !important;
+  top: 0;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  clip: rect(1px, 1px, 1px, 1px) !important;
+  border: 0 !important;
+}
+
+/* Buttons */
+.rdp-button_reset {
+  appearance: none;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  cursor: default;
+  color: inherit;
+  outline: none;
+  background: none;
+  font: inherit;
+
+  -moz-appearance: none;
+  -webkit-appearance: none;
+}
+
+.rdp-button {
+  border: 2px solid transparent;
+}
+
+.rdp-button[disabled] {
+  opacity: 0.25;
+}
+
+.rdp-button:not([disabled]) {
+  cursor: pointer;
+}
+
+.rdp-button:focus:not([disabled]),
+.rdp-button:active:not([disabled]) {
+  color: inherit;
+  border: var(--rdp-outline);
+  background-color: var(--rdp-background-color);
+}
+
+.rdp-button:hover:not([disabled]) {
+  background-color: var(--rdp-background-color);
+}
+
+.rdp-months {
+  display: flex;
+}
+
+.rdp-month {
+  margin: 0 1em;
+}
+
+.rdp-month:first-child {
+  margin-left: 0;
+}
+
+.rdp-month:last-child {
+  margin-right: 0;
+}
+
+.rdp-table {
+  margin: 0;
+  max-width: calc(var(--rdp-cell-size) * 7);
+  border-collapse: collapse;
+}
+
+.rdp-with_weeknumber .rdp-table {
+  max-width: calc(var(--rdp-cell-size) * 8);
+  border-collapse: collapse;
+}
+
+.rdp-caption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0;
+  text-align: left;
+}
+
+.rdp-multiple_months .rdp-caption {
+  position: relative;
+  display: block;
+  text-align: center;
+}
+
+.rdp-caption_dropdowns {
+  position: relative;
+  display: inline-flex;
+}
+
+.rdp-caption_label {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
+  padding: 0 0.25em;
+  white-space: nowrap;
+  color: currentColor;
+  border: 0;
+  border: 2px solid transparent;
+  font-family: inherit;
+  font-size: 140%;
+  font-weight: bold;
+}
+
+.rdp-nav {
+  white-space: nowrap;
+}
+
+.rdp-multiple_months .rdp-caption_start .rdp-nav {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+
+.rdp-multiple_months .rdp-caption_end .rdp-nav {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+}
+
+.rdp-nav_button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--rdp-cell-size);
+  height: var(--rdp-cell-size);
+  padding: 0.25em;
+  border-radius: 100%;
+}
+
+/* ---------- */
+/* Dropdowns  */
+/* ---------- */
+
+.rdp-dropdown_year,
+.rdp-dropdown_month {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.rdp-dropdown {
+  appearance: none;
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  cursor: inherit;
+  opacity: 0;
+  border: none;
+  background-color: transparent;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.rdp-dropdown[disabled] {
+  opacity: unset;
+  color: unset;
+}
+
+.rdp-dropdown:focus:not([disabled]) + .rdp-caption_label,
+.rdp-dropdown:active:not([disabled]) + .rdp-caption_label {
+  border: var(--rdp-outline);
+  border-radius: 6px;
+  background-color: var(--rdp-background-color);
+}
+
+.rdp-dropdown_icon {
+  margin: 0 0 0 5px;
+}
+
+.rdp-head {
+  border: 0;
+}
+
+.rdp-head_row,
+.rdp-row {
+  height: 100%;
+}
+
+.rdp-head_cell {
+  vertical-align: middle;
+  text-transform: uppercase;
+  font-size: 0.75em;
+  font-weight: 700;
+  text-align: center;
+  height: 100%;
+  height: var(--rdp-cell-size);
+  padding: 0;
+}
+
+.rdp-tbody {
+  border: 0;
+}
+
+.rdp-tfoot {
+  margin: 0.5em;
+}
+
+.rdp-cell {
+  width: var(--rdp-cell-size);
+  height: 100%;
+  height: var(--rdp-cell-size);
+  padding: 0;
+  text-align: center;
+}
+
+.rdp-weeknumber {
+  font-size: 0.75em;
+}
+
+.rdp-weeknumber,
+.rdp-day {
+  display: flex;
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: var(--rdp-cell-size);
+  max-width: var(--rdp-cell-size);
+  height: var(--rdp-cell-size);
+  margin: 0;
+  border: 2px solid transparent;
+  border-radius: 100%;
+}
+
+.rdp-day_today:not(.rdp-day_outside) {
+  font-weight: bold;
+}
+
+.rdp-day_selected:not([disabled]),
+.rdp-day_selected:focus:not([disabled]),
+.rdp-day_selected:active:not([disabled]),
+.rdp-day_selected:hover:not([disabled]) {
+  color: white;
+  background-color: var(--rdp-accent-color);
+}
+
+.rdp-day_selected:focus:not([disabled]) {
+  border: var(--rdp-outline-selected);
+}
+
+.rdp:not([dir='rtl']) .rdp-day_range_start:not(.rdp-day_range_end) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.rdp:not([dir='rtl']) .rdp-day_range_end:not(.rdp-day_range_start) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.rdp[dir='rtl'] .rdp-day_range_start:not(.rdp-day_range_end) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.rdp[dir='rtl'] .rdp-day_range_end:not(.rdp-day_range_start) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.rdp-day_range_end.rdp-day_range_start {
+  border-radius: 100%;
+}
+
+.rdp-day_range_middle {
+  border-radius: 0;
+}
+</style><style>.hidden-sidebar .Sidebar__TodoListContainer {
+  display: none;
+}
+
+.hidden-sidebar .todo-list-header {
+  display: none;
+}
+
+.hidden-sidebar .to-do-list {
+  display: none;
+}
+
+#tfc-wall-rose {
+  position: relative;
+}
+
+body {
+  --tfc-dark-mode-text-primary: #e4e4e7;
+  --tfc-dark-mode-text-secondary: #71717a;
+  --tfc-dark-mode-bg-primary: #27272a;
+  --tfc-dark-mode-bg-primary-2: #3f3f46;
+  --tfc-dark-mode-bg-secondary: #52525b;
+}
 </style></head>
 <body>
 <div class="wrapper">
@@ -773,7 +1101,7 @@ body {
     <div class="meta-row">
       <div class="meta-item"><span class="meta-key">Status</span><span class="meta-val">Concept / Pre-Development</span></div>
       <div class="meta-item"><span class="meta-key">Target Version</span><span class="meta-val">GTNH 2.9.x</span></div>
-      <div class="meta-item"><span class="meta-key">Tier Range</span><span class="meta-val">LuV -> UHV</span></div>
+      <div class="meta-item"><span class="meta-key">Tier Range</span><span class="meta-val">LuV -&gt; UHV</span></div>
       <div class="meta-item"><span class="meta-key">Chain Count</span><span class="meta-val">7 (v1.0)</span></div>
     </div>
   </header>
@@ -834,7 +1162,7 @@ body {
       <div class="chain-card">
         <div class="chain-header">
           <div class="chain-name">Nylon-6,6</div>
-          <div class="chain-tags"><span class="tag tier">HV → EV</span><span class="tag struct">Structural</span><span class="tag gate">Gate</span></div>
+          <div class="chain-tags"><span class="tag tier">ZPM</span><span class="tag struct">Structural</span><span class="tag gate">Gate</span></div>
         </div>
         <div class="chain-desc">A tough engineering plastic made from oil chain feedstocks. Stronger and more heat-resistant than polyethylene, with a key synthesis step that requires a dedicated new multiblock to complete.</div>
         <ul class="chain-uses">
@@ -848,7 +1176,7 @@ body {
       <div class="chain-card">
         <div class="chain-header">
           <div class="chain-name">Carbon Fiber Composite</div>
-          <div class="chain-tags"><span class="tag tier">EV</span><span class="tag struct">Structural</span><span class="tag proc">Process</span></div>
+          <div class="chain-tags"><span class="tag tier">ZPM -&gt; UV</span><span class="tag struct">Structural</span><span class="tag proc">Process</span></div>
         </div>
         <div class="chain-desc">A high-performance composite made from polymer fiber that gets carbonized at extreme temperatures and combined with resin. Two distinct heat treatment stages with different atmospheric requirements make this a genuinely involved chain.</div>
         <ul class="chain-uses">
@@ -861,7 +1189,7 @@ body {
       <div class="chain-card">
         <div class="chain-header">
           <div class="chain-name">Silicon Carbide</div>
-          <div class="chain-tags"><span class="tag tier">EV → IV</span><span class="tag proc">Process</span><span class="tag gate">Gate</span></div>
+          <div class="chain-tags"><span class="tag tier">UV</span><span class="tag proc">Process</span><span class="tag gate">Gate</span></div>
         </div>
         <div class="chain-desc">An inorganic ceramic made from sand and a coal byproduct at temperatures that push the limits of existing EBF coils. Chemically inert, brutally hard, and thermally stable far beyond what any plastic can handle.</div>
         <ul class="chain-uses">
@@ -874,7 +1202,7 @@ body {
       <div class="chain-card">
         <div class="chain-header">
           <div class="chain-name">Polyimide / Kapton</div>
-          <div class="chain-tags"><span class="tag tier">EV → IV</span><span class="tag struct">Structural</span><span class="tag gate">Gate</span></div>
+          <div class="chain-tags"><span class="tag tier">ZPM -&gt; UV</span><span class="tag struct">Structural</span><span class="tag gate">Gate</span></div>
         </div>
         <div class="chain-desc">A high-performance polymer film that stays stable above 400°C and insulates perfectly under high voltage — the material NASA wraps spacecraft wiring in. Made in two stages from coal tar and existing GTNH nitrogen chemistry, with a useful intermediate byproduct.</div>
         <ul class="chain-uses">
@@ -888,7 +1216,7 @@ body {
       <div class="chain-card">
         <div class="chain-header">
           <div class="chain-name">Polylactic Acid (PLA)</div>
-          <div class="chain-tags"><span class="tag tier">HV</span><span class="tag proc">Process</span><span class="tag struct">Structural</span></div>
+          <div class="chain-tags"><span class="tag tier">ZPM</span><span class="tag proc">Process</span><span class="tag struct">Structural</span></div>
         </div>
         <div class="chain-desc">The only chain in the mod that starts with crops instead of oil. Bacteria ferment sugars into lactic acid, which gets converted into a biodegradable plastic. Completely distinct feedstock identity from everything else here.</div>
         <ul class="chain-uses">
@@ -901,7 +1229,7 @@ body {
       <div class="chain-card">
         <div class="chain-header">
           <div class="chain-name">White Graphite (Hexagonal Boron Nitride)</div>
-          <div class="chain-tags"><span class="tag tier">LuV</span><span class="tag proc">Process</span><span class="tag gate">Gate</span></div>
+          <div class="chain-tags"><span class="tag tier">UV -&gt; UHV</span><span class="tag proc">Process</span><span class="tag gate">Gate</span></div>
         </div>
         <div class="chain-desc">Called "white graphene" — same layered structure as graphite, same lubricating properties, but electrically insulating instead of conductive and stable at temperatures graphite would oxidize and fall apart. Made from a new ore input reacted with ammonia at high temperature.</div>
         <ul class="chain-uses">
@@ -914,7 +1242,7 @@ body {
       <div class="chain-card">
         <div class="chain-header">
           <div class="chain-name">Silica Aerogel</div>
-          <div class="chain-tags"><span class="tag tier">IV → LuV</span><span class="tag proc">Process</span><span class="tag gate">Gate</span></div>
+          <div class="chain-tags"><span class="tag tier">UHV -&gt; UEV</span><span class="tag proc">Process</span><span class="tag gate">Gate</span></div>
         </div>
         <div class="chain-desc">A material that sounds fake — a solid that's up to 99% air, with the lowest thermal conductivity of any known solid. Made by removing liquid from a gel without letting it collapse, using a high-pressure supercritical drying process that requires dedicated infrastructure.</div>
         <ul class="chain-uses">
@@ -961,9 +1289,11 @@ body {
         <tr><th>Multiblock</th><th>Tier</th><th>Chain</th><th>Function</th></tr>
       </thead>
       <tbody>
-        <tr><td>High Temp. Reaction Furnace</td><td>IV</td><td>Silicon Carbide</td><td>Smelting at 3000K+ second tier above EBF/Volcanus family, has specific recipes only in this multiblock</td></tr>
-        <tr><td>Ceramic Reaction Vessel</td><td>LuV</td><td>Boron Nitride</td><td>Contains exotic molten metal mixtures for high-tier alloy recipes</td></tr>
-        <tr><td>Catalytic Reaction Chamber</td><td>IV–LuV</td><td>Aerogel</td><td>Unlocks "catalytic environment" recipe category, requires CF casings + aerogel supports</td></tr>
+        <tr><td>High Temp. Reaction Furnace</td><td>TBD</td><td>Silicon Carbide</td><td>Smelting at 3000K+ second tier above EBF/Volcanus family, has specific recipes only in this multiblock</td></tr><tr><td>Ammonia Atmosphere Reactor</td><td>TBD</td><td>Boron Nitride</td><td>High-temperature reactive NH₃ atmosphere. Used for metal nitriding, NH₃ is consumed as recipe fluid; CO is produced as recipe fluid output.</td></tr>
+        <tr><td>Ceramic Reaction Vessel</td><td>TBD</td><td>N/A</td><td>Contains exotic molten metal mixtures for high-tier alloy recipes</td></tr><tr><td>Dual Atmosphere Furnace</td><td>TBD</td><td>Carbon Fiber Composite</td><td>Oxidizing for CF fiber stabilization and case hardening.
+Inert (N₂/Ar/Xe/Og) for carbonization.</td></tr><tr><td>High Pressure Sintering Furnace</td><td>TBD</td><td>Boron Nitride, Sintered Silicon Carbide</td><td>Ceramic sintering and hot isostatic pressing. Requires inert gas (N₂/Ar/Xe/Og) as recipe fluid input. Used for SiC sintering and hBN hot pressing.</td></tr><tr><td>High Temperature Reaction Furnace</td><td>TBD</td><td>Most Chains</td><td>Tier above EBF, operates at 2000 K+. Also accepts all EBF recipes at 80% EU cost aswell as (TBF). Requires SiC Ceramic Casings and high-tier heating coils.</td></tr>
+        <tr><td>Polycondensation Vessel</td><td>TBD</td><td>Nylon 6,6, PLA</td><td>Bacuum-assisted condensation polymerization. Used for Nylon-6,6 polycondensation, PLA ring-opening polymerization, and vacuum chemistry.</td></tr><tr><td>Precision Film Caster</td><td>TBD</td><td>Kapton</td><td>Casting for Kapton PAA film, polymer films, silicon wafer casting.
+Imidization for thermal conversion of PAA to Kapton polyimide.</td></tr><tr><td>Supercritical Dryer</td><td>UHV or UEV</td><td>Aerogel</td><td>Operates above ethanol's critical point. Used for aerogel supercritical drying and CO₂ supercritical extraction. Ethanol vapor produced during drying is recovered as fluid output for recycling.</td></tr>
       </tbody>
     </table>
   </section>
@@ -1003,6 +1333,7 @@ body {
   </footer>
 
 </div>
+
 
 
 </body></html>
