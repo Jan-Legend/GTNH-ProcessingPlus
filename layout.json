@@ -1,0 +1,14 @@
+{
+  "ideaDirPath": "C:/Users/palif/ExampleMod1.7.10/.idea",
+  "modulesMap": {
+    "ExampleMod1.7.10": "C:/Users/palif/ExampleMod1.7.10/.idea/modules/ExampleMod1.7.10.iml",
+    "ExampleMod1.7.10:api": "C:/Users/palif/ExampleMod1.7.10/.idea/modules/ExampleMod1.7.10.api.iml",
+    "ExampleMod1.7.10:ideVirtualMain": "C:/Users/palif/ExampleMod1.7.10/.idea/modules/ExampleMod1.7.10.ideVirtualMain.iml",
+    "ExampleMod1.7.10:injectedInterfaces": "C:/Users/palif/ExampleMod1.7.10/.idea/modules/ExampleMod1.7.10.injectedInterfaces.iml",
+    "ExampleMod1.7.10:injectedTags": "C:/Users/palif/ExampleMod1.7.10/.idea/modules/ExampleMod1.7.10.injectedTags.iml",
+    "ExampleMod1.7.10:main": "C:/Users/palif/ExampleMod1.7.10/.idea/modules/ExampleMod1.7.10.main.iml",
+    "ExampleMod1.7.10:mcLauncher": "C:/Users/palif/ExampleMod1.7.10/.idea/modules/ExampleMod1.7.10.mcLauncher.iml",
+    "ExampleMod1.7.10:patchedMc": "C:/Users/palif/ExampleMod1.7.10/.idea/modules/ExampleMod1.7.10.patchedMc.iml",
+    "ExampleMod1.7.10:test": "C:/Users/palif/ExampleMod1.7.10/.idea/modules/ExampleMod1.7.10.test.iml"
+  }
+}

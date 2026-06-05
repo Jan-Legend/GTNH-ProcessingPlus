@@ -1,0 +1,13 @@
+; {"groups":{"0":{"viewmode":"DEFAULT","crafting":false,"collapsed":false}}}
+{"item":{"Count":0,"Damage":"1S","strId":"gtnhpp:gtnhpp_material"},"multiplier":1,"factor":0,"type":0}
+{"item":{"Count":0,"Damage":"2S","strId":"gtnhpp:gtnhpp_material"},"multiplier":1,"factor":0,"type":0}
+{"item":{"Count":0,"Damage":"0S","strId":"gtnhpp:gtnhpp_material"},"multiplier":1,"factor":0,"type":0}
+{"item":{"Count":0,"Damage":"3S","strId":"gtnhpp:gtnhpp_material"},"multiplier":1,"factor":0,"type":0}
+{"item":{"Count":0,"Damage":"4S","strId":"gtnhpp:gtnhpp_material"},"multiplier":1,"factor":0,"type":0}
+{"item":{"Count":0,"Damage":"5S","strId":"gtnhpp:gtnhpp_material"},"multiplier":1,"factor":0,"type":0}
+{"item":{"Count":0,"Damage":"31504S","strId":"gregtech:gt.blockmachines"},"multiplier":1,"factor":0,"type":0}
+{"item":{"Count":1000,"gtFluidName":"cyclohexanone"},"multiplier":1,"factor":1000,"type":0}
+{"item":{"Count":10,"Damage":"2S","strId":"miscutils:item.BasicGenericChemItem","tag":{"catalyst":{"Damage":"0L","MaxDamage":"50L"}}},"multiplier":1,"factor":10,"type":0,"recipeId":{"handlerName":"gt.recipe.assembler","ingredients":[{"Count":10,"Damage":"13S","strId":"miscutils:item.BasicAgrichemItem"},{"Count":3,"Damage":"2028S","strId":"gregtech:gt.metaitem.01"},{"Count":3,"Damage":"2033S","strId":"gregtech:gt.metaitem.01"},{"Count":0,"Damage":"8S","strId":"gregtech:gt.integrated_circuit"}],"result":{"Count":0,"Damage":"2S","strId":"miscutils:item.BasicGenericChemItem"}}}
+{"item":{"Count":0,"Damage":"998S","strId":"gregtech:gt.blockmachines"},"multiplier":1,"factor":0,"type":0}
+{"item":{"Count":2,"Damage":"5S","strId":"gtnhpp:gtnhpp_material"},"multiplier":1,"factor":2,"type":0,"recipeId":{"handlerName":"gt.recipe.largechemicalreactor","ingredients":[{"Count":0,"Damage":"5S","strId":"gregtech:gt.integrated_circuit"},{"Count":3000,"gtFluidName":"oxygen"}],"result":{"Count":0,"Damage":"5S","strId":"gtnhpp:gtnhpp_material"}}}
+; {"groups":{"0":{"viewmode":"DEFAULT","crafting":false,"collapsed":false}}}

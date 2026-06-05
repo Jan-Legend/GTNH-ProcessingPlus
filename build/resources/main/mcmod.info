@@ -1,0 +1,21 @@
+{
+	"modListVersion": 2,
+	"modList": [{
+		"modid": "gtnhpp",
+		"name": "GT:NH Processing+",
+		"description": "An example mod for Minecraft 1.7.10 with Forge focused on a stable setup.",
+		"version": "master-packages-master.22+6d480e9f0b-dirty",
+		"mcversion": "1.7.10",
+		"url": "https://github.com/SinTh0r4s/MyMod",
+		"updateUrl": "",
+		"authorList": ["SinTho0r4s"],
+		"credits": "",
+		"logoFile": "",
+		"screenshots": [],
+		"parent": "",
+		"requiredMods": [],
+		"dependencies": [],
+		"dependants": [],
+		"useDependencyInformation": false
+	}]
+}

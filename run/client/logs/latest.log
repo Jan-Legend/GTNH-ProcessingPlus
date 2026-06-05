@@ -1,0 +1,53 @@
+[18:41:49] [main/INFO]: Setting user: Developer
+[18:41:51] [Client thread/INFO]: LWJGL Version: 2.9.4
+[18:42:07] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:NotEnoughItems, FMLFileResourcePack:GT:NH Processing+, FMLFileResourcePack:GT: New Horizons, FMLFileResourcePack:BartWorks, FMLFileResourcePack:BartWorks Mod Additions, FMLFileResourcePack:BartWorks Mod Additions - TGregworks Container, FMLFileResourcePack:GT Scanner Mod, FMLFileResourcePack:Galactic Greg, FMLFileResourcePack:GigaGramFab, FMLFileResourcePack:Good Generator, FMLFileResourcePack:GregTech, FMLFileResourcePack:GregTech GTNH, FMLFileResourcePack:GT++, FMLFileResourcePack:GT NEI Ore Plugin GT:NH Mod, FMLFileResourcePack:GTNH-Intergalactic, FMLFileResourcePack:GTNH: Lanthanides, FMLFileResourcePack:KekzTech, FMLFileResourcePack:KubaTech, FMLFileResourcePack:TecTech - Tec Technology!, FMLFileResourcePack:GregTech ToxicEverglades, FMLFileResourcePack:Modular UI 2, FMLFileResourcePack:AE2 Fluid Crafting, FMLFileResourcePack:AE2 Wireless Crafting Terminal, FMLFileResourcePack:Baubles, FMLFileResourcePack:Baubles Expanded, FMLFileResourcePack:Tinkers' Construct, FMLFileResourcePack:StructureLib, FMLFileResourcePack:ModularUI, FMLFileResourcePack:Waila, FMLFileResourcePack:Applied Energistics 2, FMLFileResourcePack:Hodgepodge, FMLFileResourcePack:Postea, FMLFileResourcePack:YAMCore, FMLFileResourcePack:Forge Microblocks, FMLFileResourcePack:Forge Multipart, FMLFileResourcePack:Minecraft Multipart Plugin, FMLFileResourcePack:Mantle, FMLFileResourcePack:ServerUtilities, FMLFileResourcePack:GTNH Lib, FMLFileResourcePack:UniMixins, FMLFileResourcePack:UniMixins: Mixin (UniMix), FMLFileResourcePack:UniMixins: Compatibility, FMLFileResourcePack:UniMixins: Mixingasm, FMLFileResourcePack:UniMixins: SpongeMixins, FMLFileResourcePack:UniMixins: MixinBooterLegacy, FMLFileResourcePack:UniMixins: GTNHMixins, FMLFileResourcePack:UniMixins: MixinExtras, IC2 resource pack injected by Hodgepodge, FMLFileResourcePack:EndlessIDs, FMLFileResourcePack:ChunkAPI, FMLFileResourcePack:TiC Tooltips, FMLFileResourcePack:FalsePatternLib, FMLFileResourcePack:CoFH Core
+[18:42:22] [Sound Library Loader/INFO]: Sound engine started
+[18:42:23] [Client thread/INFO]: Created: 16x16 textures/blocks-atlas
+[18:42:23] [Client thread/INFO]: Created: 16x16 textures/items-atlas
+[18:42:33] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:NotEnoughItems, FMLFileResourcePack:GT:NH Processing+, FMLFileResourcePack:GT: New Horizons, FMLFileResourcePack:BartWorks, FMLFileResourcePack:BartWorks Mod Additions, FMLFileResourcePack:BartWorks Mod Additions - TGregworks Container, FMLFileResourcePack:GT Scanner Mod, FMLFileResourcePack:Galactic Greg, FMLFileResourcePack:GigaGramFab, FMLFileResourcePack:Good Generator, FMLFileResourcePack:GregTech, FMLFileResourcePack:GregTech GTNH, FMLFileResourcePack:GT++, FMLFileResourcePack:GT NEI Ore Plugin GT:NH Mod, FMLFileResourcePack:GTNH-Intergalactic, FMLFileResourcePack:GTNH: Lanthanides, FMLFileResourcePack:KekzTech, FMLFileResourcePack:KubaTech, FMLFileResourcePack:TecTech - Tec Technology!, FMLFileResourcePack:GregTech ToxicEverglades, FMLFileResourcePack:Modular UI 2, FMLFileResourcePack:AE2 Fluid Crafting, FMLFileResourcePack:AE2 Wireless Crafting Terminal, FMLFileResourcePack:Baubles, FMLFileResourcePack:Baubles Expanded, FMLFileResourcePack:Tinkers' Construct, FMLFileResourcePack:StructureLib, FMLFileResourcePack:ModularUI, FMLFileResourcePack:Waila, FMLFileResourcePack:Applied Energistics 2, FMLFileResourcePack:Hodgepodge, FMLFileResourcePack:Postea, FMLFileResourcePack:YAMCore, FMLFileResourcePack:Forge Microblocks, FMLFileResourcePack:Forge Multipart, FMLFileResourcePack:Minecraft Multipart Plugin, FMLFileResourcePack:Mantle, FMLFileResourcePack:ServerUtilities, FMLFileResourcePack:GTNH Lib, FMLFileResourcePack:UniMixins, FMLFileResourcePack:UniMixins: Mixin (UniMix), FMLFileResourcePack:UniMixins: Compatibility, FMLFileResourcePack:UniMixins: Mixingasm, FMLFileResourcePack:UniMixins: SpongeMixins, FMLFileResourcePack:UniMixins: MixinBooterLegacy, FMLFileResourcePack:UniMixins: GTNHMixins, FMLFileResourcePack:UniMixins: MixinExtras, IC2 resource pack injected by Hodgepodge, FMLFileResourcePack:EndlessIDs, FMLFileResourcePack:ChunkAPI, FMLFileResourcePack:TiC Tooltips, FMLFileResourcePack:FalsePatternLib, FMLFileResourcePack:CoFH Core
+[18:42:37] [Client thread/INFO]: Created: 2048x1024 textures/blocks-atlas
+[18:42:41] [Client thread/INFO]: Created: 2048x2048 textures/items-atlas
+[18:42:42] [Sound Library Loader/INFO]: Sound engine started
+[18:42:45] [Server thread/INFO]: Starting integrated minecraft server version 1.7.10
+[18:42:45] [Server thread/INFO]: Generating keypair
+[18:42:46] [Server thread/INFO]: Preparing start region for level 0
+[18:42:47] [Server thread/INFO]: Changing view distance to 12, from 10
+[18:42:47] [Server thread/INFO]: Developer[local:E:e2cf1374] logged in with entity id 163 at (23.417988160899434, 66.0, -28.616482049231827)
+[18:42:47] [Server thread/INFO]: Developer joined the game
+[18:42:48] [Client thread/INFO]: [CHAT] -----------------------------------------------------
+[18:42:48] [Client thread/INFO]: [CHAT] Welcome to GregTech: New Horizons 2.9.x
+[18:42:48] [Client thread/INFO]: [CHAT] The Quest Book has a shortcut key, check your keybindings.
+[18:42:48] [Client thread/INFO]: [CHAT] GTNH Wiki link: https://wiki.gtnewhorizons.com/wiki/
+[18:42:48] [Client thread/INFO]: [CHAT] Please report bugs on GitHub:
+[18:42:48] [Client thread/INFO]: [CHAT] https://github.com/GTNewHorizons/GT-New-Horizons-Modpack/issues
+[18:42:48] [Client thread/INFO]: [CHAT] Visit our Discord at https://discord.gg/gtnh
+[18:42:48] [Client thread/INFO]: [CHAT] -----------------------------------------------------
+[18:43:05] [Client thread/INFO]: [CHAT] This structure depends on nonexistent sub channel coil. Using master channel instead.
+[18:43:05] [Client thread/INFO]: [CHAT] This structure depends on nonexistent sub channel glass. Using master channel instead.
+[18:43:05] [Client thread/INFO]: [CHAT] Some blocks have multiple candidates or can use any tier
+[18:43:05] [Client thread/INFO]: [CHAT] Hint 1 dot: Input Bus, Maintenance Hatch, Muffler Hatch, Input Hatch, Output Hatch, Energy Hatch, Output Bus
+[18:43:05] [Client thread/INFO]: [CHAT] Hint general: Mandatory Air
+[18:43:05] [Client thread/INFO]: [CHAT] This structure depends on nonexistent sub channel coil. Using master channel instead.
+[18:43:05] [Client thread/INFO]: [CHAT] This structure depends on nonexistent sub channel glass. Using master channel instead.
+[18:43:05] [Client thread/INFO]: [CHAT] Some blocks have multiple candidates or can use any tier
+[18:43:05] [Client thread/INFO]: [CHAT] Hint 1 dot: Input Bus, Maintenance Hatch, Muffler Hatch, Input Hatch, Output Hatch, Energy Hatch, Output Bus
+[18:43:05] [Client thread/INFO]: [CHAT] Hint general: Mandatory Air
+[18:43:06] [Client thread/INFO]: [CHAT] This structure depends on nonexistent sub channel coil. Using master channel instead.
+[18:43:06] [Client thread/INFO]: [CHAT] This structure depends on nonexistent sub channel glass. Using master channel instead.
+[18:43:06] [Client thread/INFO]: [CHAT] This structure depends on nonexistent sub channel coil. Using master channel instead.
+[18:43:06] [Client thread/INFO]: [CHAT] This structure depends on nonexistent sub channel glass. Using master channel instead.
+[18:43:06] [Client thread/INFO]: [CHAT] This structure depends on nonexistent sub channel coil. Using master channel instead.
+[18:43:06] [Client thread/INFO]: [CHAT] This structure depends on nonexistent sub channel glass. Using master channel instead.
+[18:43:06] [Client thread/INFO]: [CHAT] This structure depends on nonexistent sub channel coil. Using master channel instead.
+[18:43:06] [Client thread/INFO]: [CHAT] This structure depends on nonexistent sub channel glass. Using master channel instead.
+[18:43:06] [Client thread/INFO]: [CHAT] This structure depends on nonexistent sub channel coil. Using master channel instead.
+[18:43:06] [Client thread/INFO]: [CHAT] This structure depends on nonexistent sub channel glass. Using master channel instead.
+[18:43:07] [Client thread/INFO]: [CHAT] This structure depends on nonexistent sub channel coil. Using master channel instead.
+[18:43:07] [Client thread/INFO]: [CHAT] This structure depends on nonexistent sub channel glass. Using master channel instead.
+[18:43:07] [Client thread/INFO]: [CHAT] This structure depends on nonexistent sub channel coil. Using master channel instead.
+[18:43:07] [Client thread/INFO]: [CHAT] This structure depends on nonexistent sub channel glass. Using master channel instead.
+[18:45:02] [Client thread/INFO]: [CHAT] This structure depends on nonexistent sub channel coil. Using master channel instead.
+[18:45:02] [Client thread/INFO]: [CHAT] This structure depends on nonexistent sub channel glass. Using master channel instead.
+[18:45:02] [Client thread/INFO]: [CHAT] Some blocks have multiple candidates or can use any tier
+[18:45:02] [Client thread/INFO]: [CHAT] Hint 1 dot: Input Bus, Maintenance Hatch, Muffler Hatch, Input Hatch, Output Hatch, Energy Hatch, Output Bus
+[18:45:02] [Client thread/INFO]: [CHAT] Hint general: Mandatory Air
