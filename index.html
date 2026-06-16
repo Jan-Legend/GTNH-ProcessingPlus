@@ -1,4 +1,3 @@
-@ -0,0 +1,942 @@
 <html lang="en"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -92,7 +91,7 @@
   .feature-desc{font-size:13px;font-weight:300;color:var(--text-dim);line-height:1.6;margin-bottom:10px}
   .feature-bullets{list-style:none;display:flex;flex-direction:column;gap:5px}
   .feature-bullets li{display:flex;gap:10px;font-size:12px;font-weight:300;color:var(--text-dim);align-items:flex-start}
-  .feature-bullets li::before{content:'→';font-family:var(--mono);color:var(--accent);flex-shrink:0}
+  .feature-bullets li::before{content:'&#x2192;';font-family:var(--mono);color:var(--accent);flex-shrink:0}
   footer{border-top:1px solid var(--border);padding-top:32px;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px}
   .footer-left p{font-family:var(--mono);font-size:11px;color:var(--text-faint);margin:0;line-height:1.8}
   .footer-right{font-family:var(--mono);font-size:11px;color:var(--text-faint);text-align:right}
@@ -105,346 +104,18 @@
     h1{font-size:26px}
   }
 </style>
-<style>.rdp {
-  --rdp-cell-size: 40px;
-  --rdp-accent-color: #0000ff;
-  --rdp-background-color: #e7edff;
-  --rdp-accent-color-dark: #3003e1;
-  --rdp-background-color-dark: #180270;
-  --rdp-outline: 2px solid var(--rdp-accent-color); /* Outline border for focused elements */
-  --rdp-outline-selected: 2px solid rgba(0, 0, 0, 0.75); /* Outline border for focused _and_ selected elements */
-
-  margin: 1em;
-}
-
-/* Hide elements for devices that are not screen readers */
-.rdp-vhidden {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-  background: transparent;
-  border: 0;
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  appearance: none;
-  position: absolute !important;
-  top: 0;
-  width: 1px !important;
-  height: 1px !important;
-  padding: 0 !important;
-  overflow: hidden !important;
-  clip: rect(1px, 1px, 1px, 1px) !important;
-  border: 0 !important;
-}
-
-/* Buttons */
-.rdp-button_reset {
-  appearance: none;
-  position: relative;
-  margin: 0;
-  padding: 0;
-  cursor: default;
-  color: inherit;
-  outline: none;
-  background: none;
-  font: inherit;
-
-  -moz-appearance: none;
-  -webkit-appearance: none;
-}
-
-.rdp-button {
-  border: 2px solid transparent;
-}
-
-.rdp-button[disabled] {
-  opacity: 0.25;
-}
-
-.rdp-button:not([disabled]) {
-  cursor: pointer;
-}
-
-.rdp-button:focus:not([disabled]),
-.rdp-button:active:not([disabled]) {
-  color: inherit;
-  border: var(--rdp-outline);
-  background-color: var(--rdp-background-color);
-}
-
-.rdp-button:hover:not([disabled]) {
-  background-color: var(--rdp-background-color);
-}
-
-.rdp-months {
-  display: flex;
-}
-
-.rdp-month {
-  margin: 0 1em;
-}
-
-.rdp-month:first-child {
-  margin-left: 0;
-}
-
-.rdp-month:last-child {
-  margin-right: 0;
-}
-
-.rdp-table {
-  margin: 0;
-  max-width: calc(var(--rdp-cell-size) * 7);
-  border-collapse: collapse;
-}
-
-.rdp-with_weeknumber .rdp-table {
-  max-width: calc(var(--rdp-cell-size) * 8);
-  border-collapse: collapse;
-}
-
-.rdp-caption {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0;
-  text-align: left;
-}
-
-.rdp-multiple_months .rdp-caption {
-  position: relative;
-  display: block;
-  text-align: center;
-}
-
-.rdp-caption_dropdowns {
-  position: relative;
-  display: inline-flex;
-}
-
-.rdp-caption_label {
-  position: relative;
-  z-index: 1;
-  display: inline-flex;
-  align-items: center;
-  margin: 0;
-  padding: 0 0.25em;
-  white-space: nowrap;
-  color: currentColor;
-  border: 0;
-  border: 2px solid transparent;
-  font-family: inherit;
-  font-size: 140%;
-  font-weight: bold;
-}
-
-.rdp-nav {
-  white-space: nowrap;
-}
-
-.rdp-multiple_months .rdp-caption_start .rdp-nav {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  transform: translateY(-50%);
-}
-
-.rdp-multiple_months .rdp-caption_end .rdp-nav {
-  position: absolute;
-  top: 50%;
-  right: 0;
-  transform: translateY(-50%);
-}
-
-.rdp-nav_button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--rdp-cell-size);
-  height: var(--rdp-cell-size);
-  padding: 0.25em;
-  border-radius: 100%;
-}
-
-/* ---------- */
-/* Dropdowns  */
-/* ---------- */
-
-.rdp-dropdown_year,
-.rdp-dropdown_month {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-}
-
-.rdp-dropdown {
-  appearance: none;
-  position: absolute;
-  z-index: 2;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  cursor: inherit;
-  opacity: 0;
-  border: none;
-  background-color: transparent;
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-}
-
-.rdp-dropdown[disabled] {
-  opacity: unset;
-  color: unset;
-}
-
-.rdp-dropdown:focus:not([disabled]) + .rdp-caption_label,
-.rdp-dropdown:active:not([disabled]) + .rdp-caption_label {
-  border: var(--rdp-outline);
-  border-radius: 6px;
-  background-color: var(--rdp-background-color);
-}
-
-.rdp-dropdown_icon {
-  margin: 0 0 0 5px;
-}
-
-.rdp-head {
-  border: 0;
-}
-
-.rdp-head_row,
-.rdp-row {
-  height: 100%;
-}
-
-.rdp-head_cell {
-  vertical-align: middle;
-  text-transform: uppercase;
-  font-size: 0.75em;
-  font-weight: 700;
-  text-align: center;
-  height: 100%;
-  height: var(--rdp-cell-size);
-  padding: 0;
-}
-
-.rdp-tbody {
-  border: 0;
-}
-
-.rdp-tfoot {
-  margin: 0.5em;
-}
-
-.rdp-cell {
-  width: var(--rdp-cell-size);
-  height: 100%;
-  height: var(--rdp-cell-size);
-  padding: 0;
-  text-align: center;
-}
-
-.rdp-weeknumber {
-  font-size: 0.75em;
-}
-
-.rdp-weeknumber,
-.rdp-day {
-  display: flex;
-  overflow: hidden;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  width: var(--rdp-cell-size);
-  max-width: var(--rdp-cell-size);
-  height: var(--rdp-cell-size);
-  margin: 0;
-  border: 2px solid transparent;
-  border-radius: 100%;
-}
-
-.rdp-day_today:not(.rdp-day_outside) {
-  font-weight: bold;
-}
-
-.rdp-day_selected:not([disabled]),
-.rdp-day_selected:focus:not([disabled]),
-.rdp-day_selected:active:not([disabled]),
-.rdp-day_selected:hover:not([disabled]) {
-  color: white;
-  background-color: var(--rdp-accent-color);
-}
-
-.rdp-day_selected:focus:not([disabled]) {
-  border: var(--rdp-outline-selected);
-}
-
-.rdp:not([dir='rtl']) .rdp-day_range_start:not(.rdp-day_range_end) {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
-
-.rdp:not([dir='rtl']) .rdp-day_range_end:not(.rdp-day_range_start) {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-}
-
-.rdp[dir='rtl'] .rdp-day_range_start:not(.rdp-day_range_end) {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-}
-
-.rdp[dir='rtl'] .rdp-day_range_end:not(.rdp-day_range_start) {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
-
-.rdp-day_range_end.rdp-day_range_start {
-  border-radius: 100%;
-}
-
-.rdp-day_range_middle {
-  border-radius: 0;
-}
-</style><style>.hidden-sidebar .Sidebar__TodoListContainer {
-  display: none;
-}
-
-.hidden-sidebar .todo-list-header {
-  display: none;
-}
-
-.hidden-sidebar .to-do-list {
-  display: none;
-}
-
-#tfc-wall-rose {
-  position: relative;
-}
-
-body {
-  --tfc-dark-mode-text-primary: #e4e4e7;
-  --tfc-dark-mode-text-secondary: #71717a;
-  --tfc-dark-mode-bg-primary: #27272a;
-  --tfc-dark-mode-bg-primary-2: #3f3f46;
-  --tfc-dark-mode-bg-secondary: #52525b;
-}
-</style><style>.lottie-animation-container{width:var(--lottie-animation-container-width);height:var(--lottie-animation-container-height);background-color:var(--lottie-animation-container-background-color);overflow:hidden;margin:var(--lottie-animation-margin)}.lottie-animation-container svg{transform:scale(var(--lottie-animation-scale))}</style><style>.lottie-animation-container{width:var(--lottie-animation-container-width);height:var(--lottie-animation-container-height);background-color:var(--lottie-animation-container-background-color);overflow:hidden;margin:var(--lottie-animation-margin)}.lottie-animation-container svg{transform:scale(var(--lottie-animation-scale))}</style></head>
+</head>
 <body>
 <div class="wrapper">
 
   <header>
-    <div class="doc-label">Master Design Document v2</div>
+    <div class="doc-label">Master Design Document v3</div>
     <h1>GT:NH <span>Processing+</span></h1>
-    <p class="subtitle">A philosophy-driven expansion for GregTech: New Horizons. More of what GTNH already does. New processing chains, new machines, new mechanics at every tier from Steam to MAX.</p>
+    <p class="subtitle">A philosophy-driven expansion for GregTech: New Horizons. More of what GTNH already does. New processing chains, new machines, new mechanics at every tier from MV to MAX.</p>
     <div class="meta-row">
       <div class="meta-item"><span class="meta-key">Status</span><span class="meta-val">Active Development</span></div>
       <div class="meta-item"><span class="meta-key">Target Version</span><span class="meta-val">GTNH 2.9.x</span></div>
-      <div class="meta-item"><span class="meta-key">Tier Range</span><span class="meta-val">Steam to MAX</span></div>
+      <div class="meta-item"><span class="meta-key">Tier Range</span><span class="meta-val">MV to MAX</span></div>
       <div class="meta-item"><span class="meta-key">Document</span><span class="meta-val">Living, updated as features are designed</span></div>
     </div>
   </header>
@@ -505,13 +176,13 @@ body {
     <h2>Content by Tier</h2>
     <p>This is the living part of the document. Each tier gets its own block and features get added as they're fully designed. Status tags show where each feature is at.</p>
 
-    <!-- Steam / LV -->
+    <!-- MV -->
     <div class="tier-block">
       <div class="tier-header">
-        <span class="tier-badge lv">Steam / LV</span>
+        <span class="tier-badge mv">MV</span>
         <div>
           <div class="tier-name">Early Game</div>
-          <div class="tier-desc">Before the EBF. The grind before electricity takes off.</div>
+          <div class="tier-desc">First multiblock. Before the EBF's full pipeline.</div>
         </div>
       </div>
       <div class="feature-grid">
@@ -520,12 +191,11 @@ body {
             <div class="feature-name">Basic Oxygen Furnace (BOF) <span class="status wip">Designing</span></div>
             <div class="feature-tags"><span class="ftag type-multi">Multiblock</span><span class="ftag opt">Optional</span></div>
           </div>
-          <div class="feature-desc">A small LV multiblock that converts hot charged iron into steel using a continuous oxygen lance. Cheaper than the EBF but better at steel specifically so it stays relevant even after EBF is online. Solves the pre-EBF steel bottleneck without removing the challenge of getting there.</div>
+          <div class="feature-desc">A small MV multiblock that converts hot charged iron into steel using a continuous oxygen lance. Cheaper than the EBF but better at steel specifically. Solves the pre-EBF steel bottleneck without removing the challenge of getting there. Stays relevant as a steel specialist even after EBF is online.</div>
           <ul class="feature-bullets">
-            <li>Cheaper to build than EBF. You can get it running before EBF materials are even stockpiled.</li>
-            <li>Needs continuous oxygen from an electrolyzer. Actual infrastructure investment.</li>
+            <li>Cheaper to build than EBF. Can be running before EBF materials are stockpiled.</li>
+            <li>Needs continuous oxygen. Real infrastructure investment.</li>
             <li>Three carbon content modes via Alloy Smelter preheating. Each with real tradeoffs.</li>
-            <li>Stays permanently relevant as a steel specialist even after EBF is online.</li>
           </ul>
         </div>
         <div class="feature-card">
@@ -533,79 +203,123 @@ body {
             <div class="feature-name">Iron Preheating and Carbon Tuning <span class="status wip">Designing</span></div>
             <div class="feature-tags"><span class="ftag type-chain">Chain</span><span class="ftag opt">Optional</span></div>
           </div>
-          <div class="feature-desc">The prep step that feeds the BOF. Iron ingots plus varying amounts of carbon dust in the Alloy Smelter give you hot charged iron with three different carbon levels. Each feeds into the BOF with different results. The choice matters and stays relevant for the whole playthrough.</div>
+          <div class="feature-desc">The prep step that feeds the BOF. Iron ingots plus varying amounts of carbon in the Alloy Smelter give you hot charged iron with three different carbon levels. Each feeds into the BOF with different results.</div>
           <ul class="feature-bullets">
             <li>Low carbon: fastest BOF, highest steel per time. Wasteful but rapid.</li>
-            <li>Standard carbon: balanced output, the default if you don't want to think about it.</li>
-            <li>High carbon: 3-4x slower but fully recycles all carbon and oxygen. Self-sustaining steel loop where iron is your only ongoing cost.</li>
-            <li>Uses the Alloy Smelter. Something players already have running.</li>
+            <li>Standard carbon: balanced output.</li>
+            <li>High carbon: 3-4x slower but fully recycles carbon and oxygen. Iron is your only ongoing cost.</li>
           </ul>
         </div>
       </div>
     </div>
 
-    <!-- MV/HV -->
+    <!-- HV -->
     <div class="tier-block">
       <div class="tier-header">
-        <span class="tier-badge mv">MV/HV</span>
+        <span class="tier-badge mv">HV</span>
         <div>
           <div class="tier-name">Still Early Game</div>
-          <div class="tier-desc">First real machines. </div>
+          <div class="tier-desc">Industry starting to ramp up.</div>
         </div>
       </div>
       <div class="feature-grid">
         <div class="feature-card">
           <div class="feature-top">
-            <div class="feature-name">Photoresist Chain: MV Foundation <span class="status done">FINISHED</span></div>
-            <div class="feature-tags"><span class="ftag type-chain">Chain</span><span class="ftag req">Required</span></div>
+            <div class="feature-name">Coal Flyash Processing <span class="status done">FINISHED</span></div>
+            <div class="feature-tags"><span class="ftag type-chain">Chain</span><span class="ftag opt">Optional</span></div>
           </div>
-          <div class="feature-desc">The start of a single continuous photoresist chain that runs from MV all the way to UXV. Every tier adds steps onto what's already there. Nothing from a previous tier stops running. The MV foundation produces Basic Photoresist fluid which gets used in plastic circuit board recipes and adds actual depth to what was previously a really simple process.</div>
-          <ul class="feature-bullets">
-            <li>Ethanol + O2 → Formaldehyde</li>
-            <li>Phenol + Formaldehyde + H2SO4 (recycled) → Novolac Resin</li>
-            <li>Benzene + O2 → Benzoquinone OR Wood + Water → Tannin Sensitizer (two routes depending on what you have set up)</li>
-            <li>Novolac Resin + Sensitizer + Ethanol → Basic Photoresist fluid</li>
-            <li>Basic Photoresist fluid used in plastic circuit board recipes</li>
-          </ul>
-        </div>
-        <div class="feature-card">
-          <div class="feature-top">
-            <div class="feature-name">Photoresist Chain: HV Extension <span class="status done">FINISHED</span></div>
-            <div class="feature-tags"><span class="ftag type-chain">Chain</span><span class="ftag req">Required</span></div>
-          </div>
-          <div class="feature-desc">HV unlocks the Distillation Tower which gives you naphthalene and anthracene. Both are better sensitizers than what MV had access to. Three alternate routes to the sensitizer, all producing the same Advanced Photoresist fluid. Basic Photoresist from MV gets consumed continuously as a base input.</div>
-          <ul class="feature-bullets">
-            <li>Naphthalene → Beta-naphthol → DNQ Sensitizer (main route, best quality)</li>
-            <li>Anthracene → Anthraquinone Sensitizer (alternate DT fraction)</li>
-            <li>Benzene → Resorcinol Sensitizer (for players deep in benzene chemistry)</li>
-            <li>Basic Photoresist fluid + Sensitizer → Advanced Photoresist fluid</li>
-          </ul>
+          <div class="feature-desc">Coal combustion waste has gallium and germanium in it if you bother to look. Deep processing pulls both out as real outputs. Gallium for LEDs and semiconductors, germanium for optics and detector components. Turns something you were voiding into two useful materials.</div>
         </div>
       </div>
     </div>
 
-    <!-- EV / IV -->
+    <!-- EV -->
     <div class="tier-block">
       <div class="tier-header">
-        <span class="tier-badge hv">EV / IV</span>
+        <span class="tier-badge hv">EV</span>
         <div>
           <div class="tier-name">Mid Game</div>
-          <div class="tier-desc">Industrial buildup. Assembly lines. </div>
+          <div class="tier-desc">Assembly lines. Industrial chemicals. New multiblocks unlock.</div>
         </div>
       </div>
       <div class="feature-grid">
         <div class="feature-card">
           <div class="feature-top">
-            <div class="feature-name">Photoresist Chain: EV Extension <span class="status done">FINISHED</span></div>
+            <div class="feature-name">Photoresist Chain: MV through EV <span class="status done">FINISHED</span></div>
             <div class="feature-tags"><span class="ftag type-chain">Chain</span><span class="ftag req">Required</span></div>
           </div>
-          <div class="feature-desc">EV introduces polyhydroxystyrene resin and a proper photo-acid generator. The chain moves from dissolution inhibitor chemistry to chemically amplified resist chemistry. Advanced Photoresist from HV gets consumed continuously as the base input.</div>
+          <div class="feature-desc">The start of a continuous photoresist chain that runs all the way to UMV. Every tier adds steps onto what's already there. Nothing from a previous tier stops running. The MV foundation produces Basic Photoresist for plastic circuit boards. HV upgrades it with distillation fractions and better sensitizers. EV introduces chemically amplified resist chemistry with a proper photo-acid generator.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-top">
+            <div class="feature-name">RHEA Alloy and PPS Cables <span class="status done">FINISHED</span></div>
+            <div class="feature-tags"><span class="ftag type-chain">Chain</span><span class="ftag req">Required</span></div>
+          </div>
+          <div class="feature-desc">Refractory High Entropy Alloy synthesis starting at EV. Five or more elements in roughly equimolar ratios. RHEA requires Polyphenylene sulfide in every recipe without exception. The final product is RHEA cables that gate IV machine hull construction, replacing tungsten cables across all IV hull recipes. Existing tungsten cable routes to IV hulls are removed.</div>
           <ul class="feature-bullets">
-            <li>Styrene + Acetic Anhydride → Acetoxystyrene</li>
-            <li>Acetoxystyrene + H2O2 + HCl (recycled) → PHS Resin</li>
-            <li>Sulfur + Chlorine + Benzene → Diphenylsulfonium Salt (PAG)</li>
-            <li>Advanced Photoresist + PHS Resin + PAG → EV Photoresist fluid</li>
+            <li>PPS (Polyphenylene sulfide) required in all RHEA recipes. No shortcuts.</li>
+            <li>RHEA cables replace tungsten cables in IV machine hull recipes.</li>
+            <li>Existing tungsten wire routes to IV hull are removed from the game.</li>
           </ul>
+        </div>
+        <div class="feature-card">
+          <div class="feature-top">
+            <div class="feature-name">Tantalum-Niobium Separation <span class="status done">FINISHED</span></div>
+            <div class="feature-tags"><span class="ftag type-chain">Chain</span><span class="ftag opt">Optional</span></div>
+          </div>
+          <div class="feature-desc">Coltan ore processing for high-purity tantalum and niobium. Solvent extraction splits the two metals which are nearly impossible to separate any other way. Tantalum for capacitors, niobium for superalloys. Quality of life ore chain.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-top">
+            <div class="feature-name">Carbon Processing with Biomass <span class="status wip">Designing</span></div>
+            <div class="feature-tags"><span class="ftag type-chain">Chain</span><span class="ftag opt">Optional</span></div>
+          </div>
+          <div class="feature-desc">Carbon material processing using biological feedstocks. Biochar, activated carbon, and carbon precursors from biomass sources. Sets up infrastructure that feeds into higher-tier carbon chains later.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-top">
+            <div class="feature-name">SiC for HTRF Casings <span class="status done">FINISHED</span></div>
+            <div class="feature-tags"><span class="ftag type-chain">Chain</span><span class="ftag req">Required</span></div>
+          </div>
+          <div class="feature-desc">Silicon carbide synthesis at EV to produce the casings needed to build the HTRF. SiC is what gates the HTRF. The HTRF then opens up higher-temperature reactions and is required somewhere in IV progression.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-top">
+            <div class="feature-name">High Temp Reaction Furnace (HTRF) <span class="status done">FINISHED</span></div>
+            <div class="feature-tags"><span class="ftag type-multi">Multiblock</span><span class="ftag req">Required</span></div>
+          </div>
+          <div class="feature-desc">2000K+ reactions the EBF can't reach. Gated by SiC casings. Required for IV progression. The HTRF is meant to be something you build and immediately feel like you need a second one.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-top">
+            <div class="feature-name">Spectral Processing Chamber (SPC) <span class="status done">FINISHED</span></div>
+            <div class="feature-tags"><span class="ftag type-multi">Multiblock</span><span class="ftag opt">Optional</span></div>
+          </div>
+          <div class="feature-desc">New EV multiblock for photon-assisted processing. Beam and frame module components allow different processing modes.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- IV -->
+    <div class="tier-block">
+      <div class="tier-header">
+        <span class="tier-badge hv">IV</span>
+        <div>
+          <div class="tier-name">Mid-Late Game</div>
+          <div class="tier-desc">IV is perfect. Minimal additions.</div>
+        </div>
+      </div>
+      <div class="callout gold">
+        <div class="callout-label gold">Design Note</div>
+        <p>IV is intentionally light on new content. The main additions are the RHEA cable gate on machine hulls, photoresist continuing from EV, and the HTRF being required somewhere in IV progression. Nothing else. IV doesn't need fixing.</p>
+      </div>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-top">
+            <div class="feature-name">RHEA Cable Gate on IV Machine Hulls <span class="status done">FINISHED</span></div>
+            <div class="feature-tags"><span class="ftag type-chain">Chain</span><span class="ftag req">Required</span></div>
+          </div>
+          <div class="feature-desc">IV machine hulls require RHEA cables instead of tungsten cables. The existing tungsten cable recipes for IV hulls are removed. RHEA cables require PPS polymer in production. This gates IV hull construction on having the full RHEA chain running from EV.</div>
         </div>
         <div class="feature-card">
           <div class="feature-top">
@@ -613,140 +327,251 @@ body {
             <div class="feature-tags"><span class="ftag type-chain">Chain</span><span class="ftag req">Required</span></div>
           </div>
           <div class="feature-desc">IV introduces THP protection of the PHS resin using a crop-derived protecting group. Furfural from agricultural waste feeds directly into the chain. Crops finally have a meaningful chemical use beyond bioethanol.</div>
-          <ul class="feature-bullets">
-            <li>Crops + H2SO4 → Furfural</li>
-            <li>Furfural + Heat → Dihydropyran + CO byproduct</li>
-            <li>PHS Resin + Dihydropyran + HCl (recycled) → THP Protected PHS</li>
-            <li>EV Photoresist + THP Protected PHS → IV Photoresist fluid</li>
-          </ul>
-        </div>
-        <div class="feature-card">
-          <div class="feature-top">
-            <div class="feature-name">Pollucite Processing Line <span class="status planned">Planned</span></div>
-            <div class="feature-tags"><span class="ftag type-chain">Ore Chain</span><span class="ftag opt">Optional</span></div>
-          </div>
-          <div class="feature-desc">Pollucite is a caesium aluminium silicate found in mica veins. Deep processing via acid digestion gives way more caesium than standard electrolyzing, with rubidium as a real secondary output instead of a trace byproduct. Ends with caesium formate, a better high density drilling fluid.</div>
-          <ul class="feature-bullets">
-            <li>LCR acid digestion → caesium chloride solution, rubidium chloride, aluminium chloride, silicon dioxide</li>
-            <li>Caesium chloride + potassium permanganate → high purity caesium dust</li>
-            <li>Rubidium becomes a real output not just a trace byproduct</li>
-            <li>Caesium formate: new material, better drilling fluid at IV+. Caesium's main real-world industrial use.</li>
-          </ul>
         </div>
       </div>
     </div>
 
-    <!-- LuV / ZPM -->
+    <!-- LuV -->
     <div class="tier-block">
       <div class="tier-header">
-        <span class="tier-badge luv">LuV / ZPM</span>
+        <span class="tier-badge luv">LuV</span>
         <div>
-          <div class="tier-name">Still Mid Game</div>
-          <div class="tier-desc">The complexity spike sorta.</div>
+          <div class="tier-name">Late Game</div>
+          <div class="tier-desc">New multiblocks. Exotic materials. Void Miner content.</div>
         </div>
       </div>
       <div class="feature-grid">
         <div class="feature-card">
           <div class="feature-top">
-            <div class="feature-name">Photoresist Chain: LuV Extension <span class="status done">FINISHED</span></div>
+            <div class="feature-name">Vibranium Synthesis <span class="status wip">Designing</span></div>
             <div class="feature-tags"><span class="ftag type-chain">Chain</span><span class="ftag req">Required</span></div>
           </div>
-          <div class="feature-desc">LuV is the complexity spike of the photoresist chain. 12 steps including a triflic acid sub-chain. Introduces alicyclic polymer chemistry that ditches the aromatic backbone entirely. HCN from the Carbon Fiber chain, Adamantanol from Naquadah, and fluorine from the PTFE chain all converge here. The chain starts feeding itself across tiers.</div>
-          <ul class="feature-bullets">
-            <li>Chloroform + HF → Trifluoromethane + SO2 + O2 → Triflic Acid (sub-chain)</li>
-            <li>Acetone + HCN + H2SO4 → Methacrylic Acid (HCN comes from CF composite chain)</li>
-            <li>Methacrylic Acid + Adamantanol → Adamantyl Methacrylate (Adamantanol from Naquadah)</li>
-            <li>Acetone + Hydrazine → Acetone Azine + HCN + Chlorine → AIBN initiator</li>
-            <li>Adamantyl Methacrylate + Methacrylic Acid + AIBN + Nitrogen → Alicyclic Resin</li>
-            <li>Diphenylsulfonium Salt (EV) + Triflic Acid → Triphenylsulfonium Triflate (stronger PAG)</li>
-            <li>Propylene Oxide + Methanol → PGME + Acetic Acid → PGMEA solvent</li>
-            <li>IV Photoresist + Alicyclic Resin + Triphenylsulfonium Triflate + PGMEA → LuV Photoresist</li>
-          </ul>
+          <div class="feature-desc">5-step synthesis route derived from adamantium and something from the nether. Gates ZPM components. The exact nether source is still being decided but the output and gate are locked in.</div>
         </div>
         <div class="feature-card">
           <div class="feature-top">
-            <div class="feature-name">Photoresist Chain: ZPM Extension <span class="status done">FINISHED</span></div>
+            <div class="feature-name">Hexagonal Boron Nitride <span class="status done">FINISHED</span></div>
             <div class="feature-tags"><span class="ftag type-chain">Chain</span><span class="ftag req">Required</span></div>
           </div>
-          <div class="feature-desc">ZPM introduces fluorinated polymer chemistry and three-monomer copolymerization for 193nm ArF lithography. Gamma-butyrolactone from the Kevlar chain connects the photoresist line to one of GTNH's hardest existing chains. AIBN and PGMEA get reused from LuV. The chain keeps feeding itself.</div>
-          <ul class="feature-bullets">
-            <li>Acetone + Fluorine → Hexafluoroacetone (new material)</li>
-            <li>Hexafluoroacetone + Methacrylic Acid → HFIMA fluorinated monomer</li>
-            <li>Gamma-Butyrolactone (Kevlar chain) + Methacrylic Acid → GBLMA monomer</li>
-            <li>Adamantanol + Methacrylic Acid + H2O2 → HAdMA monomer</li>
-            <li>GBLMA + HAdMA + HFIMA + AIBN (LuV) + Nitrogen → ArF Copolymer Resin</li>
-            <li>LuV Photoresist + ArF Copolymer Resin + PGMEA (LuV) → ZPM Photoresist</li>
-          </ul>
+          <div class="feature-desc">hBN synthesis using the Ammonia Atmosphere Reactor. Primary use is LuV+ lubricant and lining the Ceramic Reaction Vessel. Also feeds into circuit substrates. The AAR is one of three LuV multiblocks you're building at this tier.</div>
         </div>
         <div class="feature-card">
           <div class="feature-top">
-            <div class="feature-name">Chemistry Chains v1.0 <span class="status wip">In Development</span></div>
+            <div class="feature-name">Unobtanium <span class="status wip">Designing</span></div>
             <div class="feature-tags"><span class="ftag type-chain">Chain</span><span class="ftag req">Required</span></div>
           </div>
-          <div class="feature-desc">Seven new material processing chains from LuV through UHV. Each has a distinct chemical identity, multiple game uses, and connects to at least two other chains. Full detail in the Chemistry Chains section.</div>
-          <ul class="feature-bullets">
-            <li>Nylon-6,6: machine hulls, LATEX wire coating, structural</li>
-            <li>Carbon Fiber Composite: structural, turbine speed boost, CRC casings</li>
-            <li>Silicon Carbide: gates HTRF, ABS upgrade, machine hulls</li>
-            <li>Kapton / Polyimide: UV circuit gate, precision multiblock casings</li>
-            <li>Polylactic Acid: bio-based, ore processing multiblocks, biofuel bonus</li>
-            <li>Hexagonal Boron Nitride: LuV+ lubricant, CRV multiblock, circuit substrates</li>
-            <li>Silica Aerogel: CRC catalyst support, insulation panels</li>
-          </ul>
+          <div class="feature-desc">9-step processing chain. Unobtanium is void miner only, found exclusively in The End dimension (not the End Farlands, just The End). Mining gives Unobtanium Ore Concentrate, one per ore. It can't be dissolved with normal acids and can't be melted the usual way so it needs a stronger approach. Balance will be tuned after playtesting.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-top">
+            <div class="feature-name">Ammonia Atmosphere Reactor (AAR) <span class="status done">FINISHED</span></div>
+            <div class="feature-tags"><span class="ftag type-multi">Multiblock</span><span class="ftag req">Required</span></div>
+          </div>
+          <div class="feature-desc">High temperature and reactive NH3 atmosphere simultaneously. Required for hBN synthesis. Recipe fails if the ammonia supply drops. Continuous input machine.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-top">
+            <div class="feature-name">High Pressure Sintering Furnace (HPSF) <span class="status done">FINISHED</span></div>
+            <div class="feature-tags"><span class="ftag type-multi">Multiblock</span><span class="ftag req">Required</span></div>
+          </div>
+          <div class="feature-desc">Heat and pressure simultaneously under inert atmosphere. Continuous inert gas required. Used for densification steps in SiC and hBN processing that can't happen in the EBF or HTRF.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-top">
+            <div class="feature-name">Ceramic Reaction Vessel (CRV) <span class="status done">FINISHED</span></div>
+            <div class="feature-tags"><span class="ftag type-multi">Multiblock</span><span class="ftag req">Required</span></div>
+          </div>
+          <div class="feature-desc">hBN-lined interior. Only multiblock that can safely contain certain exotic molten metal mixtures. Required for Unobtanium processing and other LuV+ alloy synthesis that would destroy a normal crucible.</div>
         </div>
       </div>
     </div>
 
-    <!-- UV / UHV -->
+    <!-- ZPM -->
     <div class="tier-block">
       <div class="tier-header">
-        <span class="tier-badge uv">UV / UHV</span>
+        <span class="tier-badge luv">ZPM</span>
         <div>
-          <div class="tier-name">Late-EndGame Entry</div>
-          <div class="tier-desc">Wetware circuits. Space elevator. Mega multiblocks.</div>
+          <div class="tier-name">Late Game cont.</div>
+          <div class="tier-desc">Polymerization. Nuclear isotopes. Amorphous metals.</div>
         </div>
       </div>
       <div class="feature-grid">
         <div class="feature-card">
           <div class="feature-top">
-            <div class="feature-name">Photoresist Chain: UV Extension <span class="status done">FINISHED</span></div>
+            <div class="feature-name">Nylon-6,6 <span class="status done">FINISHED</span></div>
             <div class="feature-tags"><span class="ftag type-chain">Chain</span><span class="ftag req">Required</span></div>
           </div>
-          <div class="feature-desc">UV completely changes the chemistry class. Rare earth metal doped tin clusters replace the fluorinated polymer approach from ZPM. Four exotic rare earths each do something chemically distinct. Needs the new Controlled Isotopic Doping Chamber multiblock.</div>
-          <ul class="feature-bullets">
-            <li>Tin + Chlorine → Tin Tetrachloride → Tin Oxo Acetate Cluster scaffold</li>
-            <li>Erbium + Triflic Acid → Erbium Triflate (photocatalyst, absorbs UV photons)</li>
-            <li>Ytterbium + Acetic Acid → Ytterbium Acetate (sensitizer, transfers energy to erbium)</li>
-            <li>Terbium + HCl → Terbium Chloride → Terbium Acetylacetonate (resolution enhancer)</li>
-            <li>Dysprosium + CaF2 + HCl → Dysprosium-doped CaF2 (radiation sensitizer)</li>
-            <li>Tin Oxo Cluster + all four RE compounds → RE-Doped Matrix (Controlled Isotopic Doping Chamber)</li>
-            <li>ZPM Photoresist + RE Matrix + PGMEA → UV Photoresist</li>
-          </ul>
+          <div class="feature-desc">Condensation polymerization in the Polycondensation Vessel. Output feeds machine hulls, LATEX wire coating, and structural machine parts. Gates ZPM hull construction.</div>
         </div>
+        <div class="feature-card">
+          <div class="feature-top">
+            <div class="feature-name">PLA Bio-Mulch <span class="status done">FINISHED</span></div>
+            <div class="feature-tags"><span class="ftag type-chain">Chain</span><span class="ftag opt">Optional</span></div>
+          </div>
+          <div class="feature-desc">Polylactic acid from fermentation, polymerized in the PCV. Feeds ore processing multiblocks, filtration membranes, and biofuel systems. PLA fermentation improves bioethanol yield as a side effect.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-top">
+            <div class="feature-name">Promethium and Promethic-Naquadria <span class="status wip">Designing</span></div>
+            <div class="feature-tags"><span class="ftag type-chain">Chain</span><span class="ftag req">Required</span></div>
+          </div>
+          <div class="feature-desc">Reactor-based isotope synthesis for promethium and its naquadria compound. Promethium feeds into betavoltaic cell production. Promethic-Naquadria is a ZPM-tier material with uses in high-tier machines and components.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-top">
+            <div class="feature-name">Amorphous Tritanium Alloy <span class="status wip">Designing</span></div>
+            <div class="feature-tags"><span class="ftag type-chain">Chain</span><span class="ftag req">Required</span></div>
+          </div>
+          <div class="feature-desc">Amorphous (non-crystalline) Tritanium alloy produced at ZPM. Required alongside Americium in UV motor construction. Gates UV motors on having a working ZPM amorphous metal production line.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-top">
+            <div class="feature-name">Photoresist Chain: ZPM Blend <span class="status done">FINISHED</span></div>
+            <div class="feature-tags"><span class="ftag type-chain">Chain</span><span class="ftag req">Required</span></div>
+          </div>
+          <div class="feature-desc">ZPM introduces fluorinated polymer chemistry and three-monomer copolymerization for 193nm ArF lithography. Gamma-butyrolactone from the Kevlar chain connects the photoresist line to one of GTNH's hardest existing chains. The chain keeps feeding itself across tiers.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-top">
+            <div class="feature-name">Polycondensation Vessel (PCV) <span class="status done">FINISHED</span></div>
+            <div class="feature-tags"><span class="ftag type-multi">Multiblock</span><span class="ftag req">Required</span></div>
+          </div>
+          <div class="feature-desc">Vacuum-assisted condensation polymerization. Required for Nylon-6,6 and PLA. Runs both chains and stays busy throughout ZPM.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- UV -->
+    <div class="tier-block">
+      <div class="tier-header">
+        <span class="tier-badge uv">UV</span>
+        <div>
+          <div class="tier-name">Late-Endgame Entry</div>
+          <div class="tier-desc">Wetware circuits. Carbon fiber completion. New modules.</div>
+        </div>
+      </div>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-top">
+            <div class="feature-name">Kapton / Polyimide for Wetware Boards <span class="status done">FINISHED</span></div>
+            <div class="feature-tags"><span class="ftag type-chain">Chain</span><span class="ftag req">Required</span></div>
+          </div>
+          <div class="feature-desc">Kapton film production via PFC casting and imidization. Required for UV wetware circuit boards. Two-step process: cast the polyamic acid film in the PFC, then thermally cure it at 300C+ in imidization mode.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-top">
+            <div class="feature-name">Carbon Fiber Composite <span class="status done">FINISHED</span></div>
+            <div class="feature-tags"><span class="ftag type-chain">Chain</span><span class="ftag req">Required</span></div>
+          </div>
+          <div class="feature-desc">The carbon fiber chain completes at UV using the Dual Atmosphere Furnace. Stabilization in oxidizing mode, carbonization in inert mode. The finished composite was needed for ZPM-tier builds and the chain closes here. Replaces basic carbon fiber in higher-tier recipes.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-top">
+            <div class="feature-name">Amorphous Metal Components <span class="status wip">Designing</span></div>
+            <div class="feature-tags"><span class="ftag type-chain">Chain</span><span class="ftag req">Required</span></div>
+          </div>
+          <div class="feature-desc">Amorphous metals used as UV motor and structural components. Ties into the Amorphous Tritanium chain from ZPM and expands into new amorphous alloy compositions at UV.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-top">
+            <div class="feature-name">Grade 1 Water Filter Improvement <span class="status wip">Designing</span></div>
+            <div class="feature-tags"><span class="ftag type-chain">Chain</span><span class="ftag opt">Optional</span></div>
+          </div>
+          <div class="feature-desc">A much more efficient route to Grade 1 water filters using UV-tier chemistry. Significantly reduces the resource cost of filtered water production at scale.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-top">
+            <div class="feature-name">New Module Recipes <span class="status wip">Designing</span></div>
+            <div class="feature-tags"><span class="ftag type-chain">Chain</span><span class="ftag opt">Optional</span></div>
+          </div>
+          <div class="feature-desc">New recipes for existing UV module systems using materials from the chains now running at UV. Exact modules to be decided during implementation.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-top">
+            <div class="feature-name">Photoresist Chain: UV Blend <span class="status done">FINISHED</span></div>
+            <div class="feature-tags"><span class="ftag type-chain">Chain</span><span class="ftag req">Required</span></div>
+          </div>
+          <div class="feature-desc">UV completely changes the chemistry class. Rare earth metal doped tin clusters replace the fluorinated polymer approach from ZPM. Four exotic rare earths each do something chemically distinct. Requires the Controlled Isotopic Doping Chamber.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-top">
+            <div class="feature-name">Controlled Isotopic Doping Chamber (CIDC) <span class="status done">FINISHED</span></div>
+            <div class="feature-tags"><span class="ftag type-multi">Multiblock</span><span class="ftag req">Required</span></div>
+          </div>
+          <div class="feature-desc">Precisely dopes tin oxo clusters with rare earth compounds under controlled conditions. Required for UV photoresist production.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-top">
+            <div class="feature-name">Precision Film Caster (PFC) <span class="status done">FINISHED</span></div>
+            <div class="feature-tags"><span class="ftag type-multi">Multiblock</span><span class="ftag req">Required</span></div>
+          </div>
+          <div class="feature-desc">Two modes: casting (film formation) and imidization (thermal cure at 300C+). Required for Kapton film and other precision polymer films.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-top">
+            <div class="feature-name">Dual Atmosphere Furnace (DAF) <span class="status done">FINISHED</span></div>
+            <div class="feature-tags"><span class="ftag type-multi">Multiblock</span><span class="ftag req">Required</span></div>
+          </div>
+          <div class="feature-desc">Two modes: oxidizing (air/O2) for stabilization, inert (N2/Ar) for carbonization. Switch with screwdriver. Required for carbon fiber composite completion.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- UHV -->
+    <div class="tier-block">
+      <div class="tier-header">
+        <span class="tier-badge uv">UHV</span>
+        <div>
+          <div class="tier-name">Endgame</div>
+          <div class="tier-desc">Bio-hybrid chemistry. Aerogel for multiblock construction.</div>
+        </div>
+      </div>
+      <div class="feature-grid">
         <div class="feature-card">
           <div class="feature-top">
             <div class="feature-name">Photoresist Chain: UHV Extension <span class="status done">FINISHED</span></div>
             <div class="feature-tags"><span class="ftag type-chain">Chain</span><span class="ftag req">Required</span></div>
           </div>
-          <div class="feature-desc">UHV is the first tier where biological components enter the chain. Bio-hybrid resist chemistry. Radox Polymer and Xenoxene from mandatory UHV lines become the new matrix. Needs the new Hybrid Phase Reactor multiblock.</div>
-          <ul class="feature-bullets">
-            <li>UV Photoresist + Mutagen + Unknown Liquid → Bio-Refined Intermediate</li>
-            <li>Radox Polymer + Xenoxene → Radox-Xenoxene Matrix (Hybrid Phase Reactor)</li>
-            <li>Mutated Living Solder + Acetic Acid → Living Solder Acetate</li>
-            <li>Bio-Refined Intermediate + Radox-Xenoxene Matrix + Living Solder Acetate → UHV Matrix</li>
-            <li>UHV Matrix + PGMEA → UHV Photoresist</li>
-          </ul>
+          <div class="feature-desc">UHV is the first tier where biological components enter the chain. Bio-hybrid resist chemistry. Radox Polymer and Xenoxene from mandatory UHV lines become the new matrix. Needs the Hybrid Phase Reactor.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-top">
+            <div class="feature-name">Aerogel for Multiblock Construction <span class="status wip">Designing</span></div>
+            <div class="feature-tags"><span class="ftag type-chain">Chain</span><span class="ftag req">Required</span></div>
+          </div>
+          <div class="feature-desc">Aerogel insulation casings used in UHV multiblock construction. Silica aerogel is the base. 2-4 additional aerogel variants planned with distinct identities and uses, not just reskins. The SCD handles supercritical drying. Exact variant count and uses still being designed.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-top">
+            <div class="feature-name">Cryogenic Aerogel Chamber (CAC) <span class="status done">FINISHED</span></div>
+            <div class="feature-tags"><span class="ftag type-multi">Multiblock</span><span class="ftag req">Required</span></div>
+          </div>
+          <div class="feature-desc">Aerogel-insulated reactor for cryogenic and extreme-temperature processes. Aerogel insulation casings are consumed in UHV multiblock construction.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-top">
+            <div class="feature-name">Hybrid Phase Reactor (HPR) <span class="status done">FINISHED</span></div>
+            <div class="feature-tags"><span class="ftag type-multi">Multiblock</span><span class="ftag req">Required</span></div>
+          </div>
+          <div class="feature-desc">Handles biological and inorganic chemistry simultaneously in the same vessel. Required for UHV photoresist production.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-top">
+            <div class="feature-name">Supercritical Dryer (SCD) <span class="status done">FINISHED</span></div>
+            <div class="feature-tags"><span class="ftag type-multi">Multiblock</span><span class="ftag req">Required</span></div>
+          </div>
+          <div class="feature-desc">241C, 63 bar. Kills surface tension during drying. Ethanol recovery loop built in. Required for aerogel production without pore collapse.</div>
         </div>
       </div>
     </div>
 
-    <!-- UEV / UIV -->
+    <!-- UEV -->
     <div class="tier-block">
       <div class="tier-header">
-        <span class="tier-badge uhv">UEV / UIV</span>
+        <span class="tier-badge uhv">UEV</span>
         <div>
-          <div class="tier-name">Endgame</div>
-          <div class="tier-desc">Optical circuits. Exotic planets. Transcendent materials.</div>
+          <div class="tier-name">Endgame cont.</div>
+          <div class="tier-desc">Quantum cascade chemistry.</div>
         </div>
       </div>
       <div class="feature-grid">
@@ -756,45 +581,44 @@ body {
             <div class="feature-tags"><span class="ftag type-chain">Chain</span><span class="ftag req">Required</span></div>
           </div>
           <div class="feature-desc">UEV introduces quantum electron cascade chemistry. Individual photons trigger electron avalanches at the attosecond timescale. The difficulty is the machines not the materials. QFT Tier 1 appears twice, the Beamcrafter fires the 92 eV photon beam. Materials are all accessible early UEV.</div>
-          <ul class="feature-bullets">
-            <li>Tengam + Triflic Acid + Grade 7 Water → Tengam Triflate</li>
-            <li>Naquadria + Nitric Acid + Grade 7 Water → Activated Naquadria solution</li>
-            <li>Hypogen + Grade 7 Water → Hypogen Quantum Matrix (Fusion Mk4)</li>
-            <li>Fermium Plasma + Triflic Acid → Fermium Triflate</li>
-            <li>UHV Photoresist + Tengam Triflate + Grade 7 Water → Quantum Primed Intermediate (QFT)</li>
-            <li>Quantum Primed + 92 eV beam → Beam Activated Intermediate (Beamcrafter)</li>
-            <li>Beam Activated + Activated Naquadria → Naquadria Loaded Intermediate</li>
-            <li>Naquadria Loaded + Hypogen Matrix + Fermium Triflate → Quantum Cascade Matrix (QFT)</li>
-            <li>Quantum Cascade Matrix + Grade 7 Water → Purified Matrix + radioactive waste</li>
-            <li>Purified Matrix + PGMEA → UEV Photoresist</li>
-          </ul>
         </div>
+      </div>
+    </div>
+
+    <!-- UIV -->
+    <div class="tier-block">
+      <div class="tier-header">
+        <span class="tier-badge uhv">UIV</span>
+        <div>
+          <div class="tier-name">Deep Endgame</div>
+          <div class="tier-desc">Quantum field interactions. No more chemistry.</div>
+        </div>
+      </div>
+      <div class="feature-grid">
         <div class="feature-card">
           <div class="feature-top">
             <div class="feature-name">Photoresist Chain: UIV Extension <span class="status done">FINISHED</span></div>
             <div class="feature-tags"><span class="ftag type-chain">Chain</span><span class="ftag req">Required</span></div>
           </div>
           <div class="feature-desc">UIV drops chemistry entirely. The resist works through quantum field interactions. QGP from the Forge of the Gods Heliofusion Exoticizer is the active patterning medium. The Subatomic Patterning Unit appears three times and automating it properly is the real challenge.</div>
-          <ul class="feature-bullets">
-            <li>Heliofusion Exoticizer (Forge of the Gods) → Quark-Gluon Plasma</li>
-            <li>QGP + Graviton Shards + Grade 7 Water → Stabilized QGP Matrix (Subatomic Patterning Unit)</li>
-            <li>Transcendent Metal + Stabilized QGP Matrix → Transcendent QGP Lattice (SPU)</li>
-            <li>Creon + Triflic Acid + Grade 7 Water → Creon Triflate (LCR)</li>
-            <li>Transcendent QGP Lattice + Creon Triflate → Quantum Field Imprinted Intermediate (SPU)</li>
-            <li>Quantum Field Imprinted Intermediate + UEV Photoresist → UIV Matrix</li>
-            <li>UIV Matrix + PGMEA → UIV Photoresist</li>
-          </ul>
+        </div>
+        <div class="feature-card">
+          <div class="feature-top">
+            <div class="feature-name">Subatomic Patterning Unit (SPU) <span class="status done">FINISHED</span></div>
+            <div class="feature-tags"><span class="ftag type-multi">Multiblock</span><span class="ftag req">Required</span></div>
+          </div>
+          <div class="feature-desc">Manipulates quantum fields directly. Works below the atomic scale. Appears 3 times in UIV photoresist chain. Automating it is the challenge, not the materials.</div>
         </div>
       </div>
     </div>
 
-    <!-- UMV / UXV / MAX -->
+    <!-- UMV -->
     <div class="tier-block">
       <div class="tier-header">
         <span class="tier-badge luv">UMV / UXV / MAX</span>
         <div>
           <div class="tier-name">Endergame</div>
-          <div class="tier-desc">The final stretch. Almost nobody gets here. Content should feel epic.</div>
+          <div class="tier-desc">The final stretch. The time wall.</div>
         </div>
       </div>
       <div class="feature-grid">
@@ -804,35 +628,13 @@ body {
             <div class="feature-tags"><span class="ftag type-chain">Chain</span><span class="ftag req">Required</span></div>
           </div>
           <div class="feature-desc">UMV is the time wall. The photoresist chain here isn't designed to be hard, it's designed to keep players busy while the Eye of Harmony grinds away. 18 steps using non-EoH materials. Some steps need absurd quantities of bulk materials. Some are surprisingly normal. The cumulative cost is staggering and that's the point.</div>
-          <ul class="feature-bullets">
-            <li>Shirabon + Triflic Acid → Shirabon Triflate</li>
-            <li>9x Compressed Osmium Block → Osmium Plasma (Helioflare then Heliothermal)</li>
-            <li>64x Iridium → Iridium Plasma (Heliothermal)</li>
-            <li>Tachyon Rich Temporal Fluid + Osmium Plasma + Shirabon Triflate → Tachyonic Polymer Base</li>
-            <li>32x SpaceTime + Tachyonic Polymer Base → SpaceTime Polymer Lattice (QFT T4)</li>
-            <li>Spatially Enlarged Fluid + Tachyon Rich Temporal Fluid + Magmatter → Magmatter Stabilizer (Heliofusion)</li>
-            <li>16x Neutronium → Neutronium Crystal Matrix (Helioflare)</li>
-            <li>64x Tungsten + Stellar Plasma → Molten Tungsten Stellar Alloy (Helioflux)</li>
-            <li>8x Graviton Shards + SpaceTime Lattice → Graviton Imprinted Lattice (SPU)</li>
-            <li>32x Cosmic Neutronium + Triflic Acid → Cosmic Neutronium Triflate</li>
-            <li>9x Compressed Neodymium Block + Samarium → Rare Earth Plasma Blend (Heliothermal)</li>
-            <li>Four exotic intermediates → Stellar Field Matrix (QFT T4)</li>
-            <li>Osmium + Iridium + Tungsten Stellar Alloy → Photonic Stellar Layer (SPU)</li>
-            <li>Stellar Field Matrix + 16x Shirabon + Grade 7 Water → Dimensionally Bound Matrix</li>
-            <li>Dimensionally Bound Matrix + Rare Earth Plasma → Stellar Photoresist Precursor (QFT T4)</li>
-            <li>Stellar Photoresist Precursor + UIV Photoresist → UMV Matrix</li>
-            <li>UMV Matrix + PGMEA → UMV Photoresist</li>
-          </ul>
         </div>
         <div class="feature-card">
           <div class="feature-top">
-            <div class="feature-name">Photoresist Chain: UXV / MAX <span class="status done">FINISHED</span></div>
+            <div class="feature-name">The Required Line <span class="status wip">Designing</span></div>
             <div class="feature-tags"><span class="ftag type-chain">Chain</span><span class="ftag req">Required</span></div>
           </div>
-          <div class="feature-desc">UXV and MAX extensions to be designed later. Reserved for the absolute end of the photoresist chain.</div>
-          <ul class="feature-bullets">
-            <li>Design pending, to be tackled after earlier tiers are implemented</li>
-          </ul>
+          <div class="feature-desc">A large required processing line at UMV that demands several passive sub-setups running continuously. Long enough to fill the time between EoH cycles with actual work. Scope and materials to be designed.</div>
         </div>
       </div>
     </div>
@@ -842,7 +644,7 @@ body {
   <section id="multiblocks">
     <div class="section-label">04</div>
     <h2>New Multiblocks</h2>
-    <p>Every new multiblock here serves at least two purposes. Single-purpose machines are rare but still there.</p>
+    <p>Every new multiblock here serves at least two purposes. Single-purpose machines are exceptions.</p>
     <table style="width:100%;border-collapse:collapse;font-size:13px;margin:24px 0">
       <thead>
         <tr>
@@ -853,19 +655,20 @@ body {
         </tr>
       </thead>
       <tbody>
-        <tr style="border-bottom:1px solid var(--border)"><td style="padding:12px 16px;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:500">Basic Oxygen Furnace</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">LV</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">Steel production</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">Pre-EBF steel specialist. Three carbon modes. Cheaper than EBF, better at steel specifically.</td></tr>
-        <tr style="border-bottom:1px solid var(--border)"><td style="padding:12px 16px;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:500">Polycondensation Vessel</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">ZPM</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">Nylon, PLA</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">Vacuum-assisted condensation polymerization. </td></tr>
-        <tr style="border-bottom:1px solid var(--border)"><td style="padding:12px 16px;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:500">Dual Atmosphere Furnace</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">UV</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">Carbon Fiber</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">Two modes: oxidizing (air) for stabilization, inert (N2/Ar) for carbonization. Switch with screwdriver.</td></tr>
-        <tr style="border-bottom:1px solid var(--border)"><td style="padding:12px 16px;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:500">High Temp Reaction Furnace</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">ZPM</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">SiC, future ceramics</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">2000K+ reactions the EBF can't do. Needs SiC casings.</td></tr>
-        <tr style="border-bottom:1px solid var(--border)"><td style="padding:12px 16px;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:500">High Pressure Sintering Furnace</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">UV</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">SiC, hBN</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">Heat and pressure simultaneously under inert atmosphere. Continuous inert gas required.</td></tr>
-        <tr style="border-bottom:1px solid var(--border)"><td style="padding:12px 16px;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:500">Ammonia Atmosphere Reactor</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">UV</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">hBN, future nitrides</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">High temp and reactive NH3 atmosphere at the same time. Recipe fails if ammonia supply drops.</td></tr>
-        <tr style="border-bottom:1px solid var(--border)"><td style="padding:12px 16px;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:500">Precision Film Caster</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">UV</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">Kapton, PLA membranes, aerogel films</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">Two modes: casting (film formation) and imidization (thermal cure at 300C+).</td></tr>
-        <tr style="border-bottom:1px solid var(--border)"><td style="padding:12px 16px;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:500">Ceramic Reaction Vessel</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">UHV</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">Exotic alloy synthesis</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">hBN-lined interior. Only multiblock that can safely contain certain exotic molten metal mixtures. (Hint hint cough cough new MABS)</td></tr>
-        <tr style="border-bottom:1px solid var(--border)"><td style="padding:12px 16px;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:500">Catalytic Reaction Chamber</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">UHV</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">Aerogel, advanced chemistry</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">Unlocks the catalytic environment recipe tag. Aerogel supports consumed continuously. Needs CF composite casings.</td></tr>
-        <tr style="border-bottom:1px solid var(--border)"><td style="padding:12px 16px;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:500">Supercritical Dryer</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">UHV</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">Aerogel</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">241C, 63 bar. Kills surface tension during drying. Ethanol recovery loop built in.</td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:12px 16px;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:500">Basic Oxygen Furnace</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">MV</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">Steel production</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">Pre-EBF steel specialist. Three carbon modes. Cheaper than EBF, better at steel specifically.</td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:12px 16px;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:500">High Temp Reaction Furnace</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">EV</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">SiC, high-temp chemistry</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">2000K+ reactions the EBF can't reach. Gated by SiC casings. Required for IV progression.</td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:12px 16px;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:500">Spectral Processing Chamber</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">EV</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">Spectral processing</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">Photon-assisted reactions. Beam and frame module components allow different modes.</td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:12px 16px;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:500">Ammonia Atmosphere Reactor</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">LuV</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">hBN, nitrides</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">High temp and reactive NH3 atmosphere simultaneously. Recipe fails if ammonia supply drops.</td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:12px 16px;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:500">High Pressure Sintering Furnace</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">LuV</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">SiC, hBN densification</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">Heat and pressure simultaneously under inert atmosphere. Continuous inert gas required.</td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:12px 16px;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:500">Ceramic Reaction Vessel</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">LuV</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">Exotic alloy synthesis</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">hBN-lined interior. Only multiblock that can safely contain certain exotic molten metal mixtures.</td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:12px 16px;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:500">Polycondensation Vessel</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">ZPM</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">Nylon, PLA</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">Vacuum-assisted condensation polymerization. Required for Nylon-6,6 and PLA.</td></tr>
         <tr style="border-bottom:1px solid var(--border)"><td style="padding:12px 16px;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:500">Controlled Isotopic Doping Chamber</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">UV</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">Photoresist chain</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">Precisely dopes tin oxo clusters with rare earth under controlled conditions. Required for UV photoresist.</td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:12px 16px;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:500">Precision Film Caster</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">UV</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">Kapton, aerogel films</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">Two modes: casting (film formation) and imidization (thermal cure at 300C+).</td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:12px 16px;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:500">Dual Atmosphere Furnace</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">UV</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">Carbon Fiber Composite</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">Two modes: oxidizing (air) for stabilization, inert (N2/Ar) for carbonization. Switch with screwdriver.</td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:12px 16px;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:500">Cryogenic Aerogel Chamber</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">UHV</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">Cryogenic and extreme-temp processes</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">Aerogel-insulated. Aerogel insulation casings consumed in UHV multiblock construction.</td></tr>
         <tr style="border-bottom:1px solid var(--border)"><td style="padding:12px 16px;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:500">Hybrid Phase Reactor</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">UHV</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">Photoresist chain</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">Handles biological and inorganic chemistry simultaneously. Required for UHV photoresist.</td></tr>
-        <tr><td style="padding:12px 16px;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:500">Subatomic Patterning Unit</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">UIV</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">Photoresist chain</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">Manipulates quantum fields directly. Works below the atomic scale. Appears 3 times in UIV chain. Automating it is the challenge.</td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:12px 16px;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:500">Supercritical Dryer</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">UHV</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">Aerogel</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">241C, 63 bar. Kills surface tension during drying. Ethanol recovery loop built in.</td></tr>
+        <tr><td style="padding:12px 16px;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:500">Subatomic Patterning Unit</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">UIV</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">Photoresist chain</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">Manipulates quantum fields directly. Works below the atomic scale. Appears 3 times in UIV chain.</td></tr>
       </tbody>
     </table>
   </section>
@@ -873,14 +676,14 @@ body {
   <section id="chains">
     <div class="section-label">05</div>
     <h2>Chemistry Chains</h2>
-    <p>The seven v1.0 chemistry chains. Full recipe detail is in a separate reference doc. This section covers identity, purpose, and how they connect.</p>
+    <p>Processing chains with distinct chemical identities, multiple game uses, and connections to at least two other things.</p>
     <div class="callout blue">
       <div class="callout-label blue">Circuit Substrate Ladder</div>
-      <p>This mod completes a circuit substrate progression across all tiers: Polyethylene (existing, MV-EV) → Kapton film (IV) → Hexagonal Boron Nitride (LuV/ZPM). Each material is justified for its tier.</p>
+      <p>This mod completes a circuit substrate progression: Polyethylene (existing, MV-EV) to Kapton film (IV-UV) to Hexagonal Boron Nitride (LuV+). Each material is justified for its tier.</p>
     </div>
     <div class="callout purple">
       <div class="callout-label purple">Interdependency Web</div>
-      <p>Kapton feeds aerogel (v1.1). PLA fermentation improves bioethanol as a side effect. CF composite casings needed for CRC. SiC gates HTRF. HTRF needs hBN lubricant to run at full efficiency. hBN CRV and lubricant equals sustained endgame demand. Aerogel CRC unlocks advanced chemistry that benefits every other chain.</p>
+      <p>RHEA gates IV hulls. SiC gates the HTRF. Kapton feeds the PFC. hBN feeds the CRV and lubricant systems. Carbon Fiber completes in the DAF. Aerogel lines UHV multiblock casings. Everything touches at least two other things.</p>
     </div>
     <h3>Chain Index</h3>
     <table style="width:100%;border-collapse:collapse;font-size:13px;margin:16px 0">
@@ -893,14 +696,25 @@ body {
         </tr>
       </thead>
       <tbody>
-        <tr style="border-bottom:1px solid var(--border)"><td style="padding:12px 16px;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:500">Nylon-6,6</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">LuV start / ZPM full</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">Machine hulls, LATEX coating, machine parts</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">ZPM hulls</td></tr>
-        <tr style="border-bottom:1px solid var(--border)"><td style="padding:12px 16px;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:500">Carbon Fiber Composite</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">LuV start / UV full</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">CRC casings, turbine speed boost, replaces basic CF</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">CRC build</td></tr>
-        <tr style="border-bottom:1px solid var(--border)"><td style="padding:12px 16px;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:500">Silicon Carbide</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">ZPM full / UV HPSF</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">HTRF casings, ABS upgrade, machine hulls</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">HTRF build</td></tr>
-        <tr style="border-bottom:1px solid var(--border)"><td style="padding:12px 16px;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:500">Kapton / Polyimide</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">LuV start / UV full</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">UV circuit substrates, precision multiblock casings</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">UV circuits</td></tr>
-        <tr style="border-bottom:1px solid var(--border)"><td style="padding:12px 16px;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:500">Polylactic Acid</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">LuV start / ZPM full</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">Ore proc multiblocks, filtration membranes, biofuel</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">Wet proc upgrades</td></tr>
-        <tr style="border-bottom:1px solid var(--border)"><td style="padding:12px 16px;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:500">Hexagonal Boron Nitride</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">ZPM start / UHV full</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">LuV+ lubricant, CRV lining, circuit substrates</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">LuV machines</td></tr>
-        <tr style="border-bottom:1px solid var(--border)"><td style="padding:12px 16px;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:500">Photoresist</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">MV-UMV</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">Adavanced Engraving fluid</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">All circuit boards</td></tr>
-        <tr><td style="padding:12px 16px;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:500">Silica Aerogel</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">UV start / UHV full</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">CRC catalyst support, insulation panels</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">CRC operation</td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:12px 16px;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:500">Coal Flyash Processing</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">HV</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">Gallium and germanium recovery</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">Optional</td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:12px 16px;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:500">Photoresist (MV-EV)</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">MV start / EV active</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">Engraving fluid, circuit boards</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">All circuit boards MV+</td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:12px 16px;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:500">Silicon Carbide (HTRF casings)</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">EV</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">HTRF casings, machine hulls</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">HTRF build</td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:12px 16px;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:500">RHEA Alloy and PPS Cables</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">EV start / IV gate</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">IV machine hull cables</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">IV machine hulls</td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:12px 16px;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:500">Tantalum-Niobium Separation</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">EV</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">Tantalum, niobium, electronic components</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">Optional</td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:12px 16px;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:500">Photoresist (IV)</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">IV</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">Engraving fluid</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">IV circuit boards</td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:12px 16px;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:500">Vibranium</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">LuV (5 steps)</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">ZPM components</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">ZPM components</td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:12px 16px;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:500">Hexagonal Boron Nitride</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">LuV (AAR)</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">LuV+ lubricant, CRV lining, circuit substrates</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">LuV machines</td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:12px 16px;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:500">Unobtanium</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">LuV (9 steps, void miner only)</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">LuV+ exotic applications</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">End-tier content</td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:12px 16px;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:500">Nylon-6,6</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">ZPM (PCV)</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">Machine hulls, LATEX coating, machine parts</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">ZPM hulls</td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:12px 16px;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:500">Polylactic Acid</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">ZPM (PCV)</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">Ore proc multiblocks, membranes, biofuel</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">Optional</td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:12px 16px;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:500">Promethium / Promethic-Naquadria</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">ZPM</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">Betavoltaic cells, high-tier components</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">Passive power</td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:12px 16px;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:500">Amorphous Tritanium Alloy</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">ZPM</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">UV motors (with Americium)</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">UV motors</td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:12px 16px;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:500">Photoresist (ZPM)</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">ZPM (ArF Copolymer)</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">Engraving fluid</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">ZPM circuit boards</td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:12px 16px;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:500">Kapton / Polyimide</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">UV (PFC)</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">UV wetware circuit substrates</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">UV circuits</td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:12px 16px;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:500">Carbon Fiber Composite</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">UV (DAF)</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">High-tier structural, replaces basic CF</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">ZPM builds</td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:12px 16px;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:500">Photoresist (UV)</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">UV (RE-doped, CIDC)</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">Engraving fluid</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">UV circuit boards</td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:12px 16px;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:500">Aerogel (Silica + Variants)</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">UHV (SCD)</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">UHV multiblock insulation casings</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">UHV multiblock construction</td></tr>
+        <tr><td style="padding:12px 16px;color:var(--text);font-family:var(--mono);font-size:12px;font-weight:500">Photoresist (UHV-UMV)</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">UHV through UMV</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">Engraving fluid</td><td style="padding:12px 16px;color:var(--text-dim);font-weight:300">End-tier circuit boards</td></tr>
       </tbody>
     </table>
   </section>
@@ -908,21 +722,31 @@ body {
   <section id="future">
     <div class="section-label">06</div>
     <h2>Future Updates</h2>
-    <p>v1.0 ships with the seven chemistry chains and the BOF steel system. Future versions fill in the tiers still marked in progress and expand existing chains.</p>
-    <h3>v1.1: Aerogel Variants</h3>
+    <p>Core multiblocks and chains are implemented. Remaining work is balancing, filling in chain details, and the items below.</p>
+    <h3>Still Designing</h3>
     <div class="callout">
-      <div class="callout-label green">Carbon Aerogel</div>
-      <p>Electrically conductive aerogel for supercapacitor and energy storage components. Different feedstock, different electrical identity from silica aerogel.</p>
+      <div class="callout-label green">BOF Recipes and Balance</div>
+      <p>BOF structure is built. Recipes and the three carbon mode balance still being worked out.</p>
     </div>
     <div class="callout">
-      <div class="callout-label green">Polyimide Aerogel</div>
-      <p>Uses the Kapton PAA intermediate as a gel precursor. Higher tier thermal insulation. Directly connects Kapton and Aerogel chains. Players who built both are already halfway there.</p>
+      <div class="callout-label green">Vibranium Nether Source</div>
+      <p>Vibranium is 5 steps from adamantium plus a nether-sourced ingredient. The exact nether material isn't decided yet.</p>
     </div>
-    <h3>v1.2: HV/EV/IV Content</h3>
-    <p>Content for the mid-game tiers currently marked in progress. Scope to be determined as tier-by-tier design conversations finish up.</p>
+    <div class="callout">
+      <div class="callout-label green">Aerogel Variants</div>
+      <p>2-4 additional aerogel types beyond silica. Exact count and uses to be decided. All will have distinct applications, not just reskins.</p>
+    </div>
+    <div class="callout">
+      <div class="callout-label green">UXV / MAX Photoresist</div>
+      <p>Final two tiers of the photoresist chain. Design pending until earlier tiers are verified in gameplay.</p>
+    </div>
+    <div class="callout">
+      <div class="callout-label green">UMV Required Line</div>
+      <p>The big required chain at UMV that keeps players busy between EoH cycles. Scope and materials to be designed.</p>
+    </div>
     <div class="callout red">
       <div class="callout-label red">Permanently Out of Scope</div>
-      <p>No parallel routes to materials that already have chains in base GTNH. No world gen changes. No difficulty overhauls. New chains produce genuinely new outputs. Existing GTNH materials only ever appear as inputs, never as competing outputs.</p>
+      <p>No parallel routes to materials that already have chains in base GTNH. No world gen changes. No difficulty overhauls. New chains produce genuinely new outputs. Existing GTNH materials only appear as inputs, never as competing outputs.</p>
     </div>
   </section>
 
@@ -930,11 +754,11 @@ body {
 
   <footer>
     <div class="footer-left">
-      <p>GT:NH Processing+ Master Design Document v2</p>
+      <p>GT:NH Processing+ Master Design Document v3</p>
       <p>Living document, updated as features are designed and locked.</p>
     </div>
     <div class="footer-right">
-      <p>GTNH 2.9.x · Minecraft 1.7.10 · Steam to MAX</p>
+      <p>GTNH 2.9.x · Minecraft 1.7.10 · MV to MAX</p>
     </div>
   </footer>
 
